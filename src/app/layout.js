@@ -1,5 +1,7 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "./header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,8 +12,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html>
+      <head/>
+      <body className="flex flex-col p-10 items-center h-screen">
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+          <Header/>
+          <main className="flex flex-col m-10 items-center justify-center h-full w-full">
+            {children}
+          </main>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
