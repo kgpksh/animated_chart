@@ -6,27 +6,46 @@ import { useTheme } from "next-themes"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Moon, Sun } from "lucide-react"
-// import authStore from "./zustand_auth_store"
+import { initFirebase } from "./firebase"
+import { getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 
 export default function Header() {
-    // const {jwtLogout, isJwtLoggedIn} = authStore()
     const { theme, setTheme } = useTheme()
     const [ isDarkMode, setIsDarkmode] = useState()
+
+    const app = initFirebase()
+    const auth = getAuth(app)
+    const provider = new GoogleAuthProvider()
+
     const [isLoggedIn, setIsloggedIn] = useState()
+
+    const googleSignIn = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider)
+            const user = result.user
+            setIsloggedIn(user != null)
+        } catch (e) {
+            
+        }
+    }
+
+    const signOut = () => {
+        auth.signOut()
+        setIsloggedIn(false)
+    }
 
     useEffect(() => {
         setIsDarkmode(theme == 'dark')
-        // setIsloggedIn(isJwtLoggedIn())
+        console.log(auth.currentUser)
     }, [])
     return (
         <header className="flex w-full item-center justify-between">
             <Link href='/' className="font-bold">To home</Link>
             <div className="flex items-center gap-x-4">
                 <div className={`flex items-center gap-x-4 ${isLoggedIn ? 'hidden' : true}`}>
-                    <Button className="font-bold"><Link href='/auth/login'>Log in</Link></Button>
-                    <Button className="font-bold"><Link href='/auth/register'>Register</Link></Button>
+                    <Button className="font-bold" onClick={googleSignIn}>SignUp Or Login</Button>
                 </div>
-                <Button className={`font-bold ${!isLoggedIn ? 'hidden' : true}`} onClick={() => jwtLogout()}>Log out</Button>
+                <Button className={`font-bold ${!isLoggedIn ? 'hidden' : true}`} onClick={signOut}>Log out</Button>
                 
                 
                 {isDarkMode ? <Moon/> : <Sun/>}
