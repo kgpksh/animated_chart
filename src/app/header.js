@@ -35,9 +35,27 @@ export default function Header() {
     }
 
     useEffect(() => {
+        if(window.Paddle) {
+            Paddle.Initialize({ 
+                token: 'live_7d279f61a3499fed520f7cd8c08'
+              });
+        }
         setIsDarkmode(theme == 'dark')
-        console.log(auth.currentUser)
     }, [])
+
+    const monthItems = [
+        {
+            quantity: 1,
+            priceId: 'pri_01gsz8ntc6z7npqqp6j4ys0w1w',
+        },
+    ]
+
+    const subscribe = () => {
+        Paddle.Checkout.open({
+            customData: auth.currentUser.uid,
+            items: monthItems,
+        })
+    }
     return (
         <header className="flex w-full item-center justify-between">
             <Link href='/' className="font-bold">To home</Link>
@@ -46,7 +64,7 @@ export default function Header() {
                     <Button className="font-bold" onClick={googleSignIn}>SignUp Or Login</Button>
                 </div>
                 <Button className={`font-bold ${!isLoggedIn ? 'hidden' : true}`} onClick={signOut}>Log out</Button>
-                
+                <Button className={`font-bold`} onClick={subscribe}>Subscribe</Button>
                 
                 {isDarkMode ? <Moon/> : <Sun/>}
                 <Switch

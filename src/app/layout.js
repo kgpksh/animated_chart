@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from "next/font/google";
+import Script from 'next/script';
 import "./globals.css";
 import Header from "./header";
 
@@ -13,7 +14,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html>
-      <head/>
+      <head>
+        <Script 
+          src="https://cdn.paddle.com/paddle/v2/paddle.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="flex flex-col p-10 items-center h-screen">
       <ThemeProvider
             attribute="class"
