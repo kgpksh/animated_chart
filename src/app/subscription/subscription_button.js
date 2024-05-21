@@ -1,19 +1,10 @@
 "use client"
 
-import { useEffect } from "react";
 import useAuthStore from "../header_components/zustand_auth";
 import { Button } from "@/components/ui/button"
 import { SubscriptionStatus } from "./subscription_status";
 
 export default function SubscriptionButton() {
-    useEffect(() => {
-        if (Paddle) {
-            Paddle.Environment.set("sandbox");
-            Paddle.Initialize({ token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN });
-          }
-    }, [])
-
-    
     const {getUid, getEmail, firestoreSubscription} = useAuthStore()
     const productId = process.env.NEXT_PUBLIC_PRODUCT_ID_UNLOCKER
     const monthItems = [
@@ -35,7 +26,7 @@ export default function SubscriptionButton() {
 
     const isButtonShow = () => {
         if(firestoreSubscription === null) {
-            return false
+            return true
         }
 
         const status = firestoreSubscription.status

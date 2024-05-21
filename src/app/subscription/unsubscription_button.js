@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ScheduledAction, SubscriptionStatus } from "./subscription_status";
 
 export default function UnSubscriptionButton() {    
-    const {isLoggedIn, firestoreSubscription} = useAuthStore()
+    const {firestoreSubscription} = useAuthStore()
     const unSubscribe = async () => {
         if(!isButtonShow()) {
             return null
@@ -31,13 +31,20 @@ export default function UnSubscriptionButton() {
         if(status === SubscriptionStatus.CANCELED) {
             return false
         }
-        const scheduledChange = firestoreSubscription.scheduled_change
 
-        if(scheduledChange === null) {
+        if(status === SubscriptionStatus.PASTDUE) {
             return false
         }
 
-        if(scheduledChange.action === ScheduledAction.CANCEL) {
+        const scheduledChange = firestoreSubscription.scheduled_change
+
+        if(scheduledChange === null) {
+            return true
+        }
+
+        const action = scheduledChange.action
+
+        if(action === ScheduledAction.CANCEL) {
             return false
         }
 

@@ -8,8 +8,17 @@ import useAuthStore from "./zustand_auth";
 import { ScheduledAction, SubscriptionStatus } from "../subscription/subscription_status";
 import formatDateString from "../utils/date_time_format_converter";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import UpdateSubscriptionDetailButton from "../subscription/update_detail_button";
 
 export default function AccountModal() {
+    useEffect(() => {
+        if (Paddle) {
+            Paddle.Environment.set("sandbox");
+            Paddle.Initialize({ token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN });
+          }
+    }, [])
+
     const {isLoggedIn, firestoreSubscription} = useAuthStore()
     const styles = {
         iconContainer: {
@@ -36,6 +45,7 @@ export default function AccountModal() {
 
         const nextBilledAt = formatDateString(firestoreSubscription.next_billed_at)
         const scheduledChange = firestoreSubscription.scheduled_change
+        const scheduledChangeDate = formatDateString(scheduledChange?.effective_at)
 
         if(status === SubscriptionStatus.ACTIVE) {
             if(scheduledChange === null) {
@@ -45,15 +55,15 @@ export default function AccountModal() {
             const action = scheduledChange.action
 
             if(action === ScheduledAction.CANCEL) {
-                return `Your cancelled subscription will be available by ${scheduledChange.effective_at}`
+                return `Your cancelled subscription will be available around ${scheduledChangeDate}`
             }
 
             if(action === ScheduledAction.PAUSE) {
-                return `Your subscription will be paused starting on ${scheduledChange.effective_at}`
+                return `Your subscription will be paused starting on ${scheduledChangeDate}`
             }
 
             if(action === ScheduledAction.RESUME) {
-                return `Your subscription will resume on ${scheduledChange.effective_at}`
+                return `Your subscription will resume on ${scheduledChangeDate}`
             }
         }
 
@@ -77,13 +87,14 @@ export default function AccountModal() {
                 <User size={24}/>
             </div>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className={`${!isLoggedIn() ? 'hidden' : ''}`}>
                 <DialogHeader>
                     <DialogTitle>Account</DialogTitle>
                 </DialogHeader>
                 {periodSentence()}
                 <SubscriptionButton></SubscriptionButton>
                 <UnSubscriptionButton></UnSubscriptionButton>
+                <UpdateSubscriptionDetailButton></UpdateSubscriptionDetailButton>
                 <DialogClose>
                     <Button>OK</Button>
                 </DialogClose>
