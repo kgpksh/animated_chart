@@ -10,6 +10,7 @@ import formatDateString from "../utils/date_time_format_converter";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import UpdateSubscriptionDetailButton from "../subscription/update_detail_button";
+import RemoveCancelButton from "../subscription/remove_cancel";
 
 export default function AccountModal() {
     useEffect(() => {
@@ -55,15 +56,15 @@ export default function AccountModal() {
             const action = scheduledChange.action
 
             if(action === ScheduledAction.CANCEL) {
-                return `Your cancelled subscription will be available around ${scheduledChangeDate}`
+                return `This cancelled subscription will still be available until around ${scheduledChangeDate}`
             }
 
             if(action === ScheduledAction.PAUSE) {
-                return `Your subscription will be paused starting on ${scheduledChangeDate}`
+                return `Your subscription will be paused starting on around ${scheduledChangeDate}`
             }
 
             if(action === ScheduledAction.RESUME) {
-                return `Your subscription will resume on ${scheduledChangeDate}`
+                return `Your subscription will resume on around ${scheduledChangeDate}`
             }
         }
 
@@ -72,7 +73,7 @@ export default function AccountModal() {
         }
 
         if(status === SubscriptionStatus.PASTDUE) {
-            return `Your subscription is past-due.`
+            return `Your subscription is past-due. Please update your payment method.`
         }
 
         if(status === SubscriptionStatus.TRAILING) {
@@ -94,6 +95,7 @@ export default function AccountModal() {
                 {periodSentence()}
                 <SubscriptionButton></SubscriptionButton>
                 <UnSubscriptionButton></UnSubscriptionButton>
+                <RemoveCancelButton></RemoveCancelButton>
                 <UpdateSubscriptionDetailButton></UpdateSubscriptionDetailButton>
                 <DialogClose>
                     <Button>OK</Button>

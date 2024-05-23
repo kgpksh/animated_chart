@@ -4,7 +4,7 @@ import useAuthStore from "../header_components/zustand_auth";
 import { Button } from "@/components/ui/button"
 import { ScheduledAction, SubscriptionStatus } from "./subscription_status";
 
-export default function UnSubscriptionButton() {    
+export default function RemoveCancelButton() {    
     const {firestoreSubscription} = useAuthStore()
     const unSubscribe = async () => {
         if(!isButtonShow()) {
@@ -12,13 +12,9 @@ export default function UnSubscriptionButton() {
         }
 
         const subscription_id = firestoreSubscription.subscription_id
-        const response = await fetch(`/subscription/unsubscription/${subscription_id}`);
-        const data = await response.json()
-        
-        const cancelUrl = data.cancelUrl
-
-        window.open(cancelUrl, '_blank')
-
+        const response = await fetch(`/subscription/removeCancelSchedule/${subscription_id}`, {method:"PATCH"});
+        // const result = await response.json()
+        // const status = response.status
     }
 
     const isButtonShow = () => {
@@ -26,28 +22,22 @@ export default function UnSubscriptionButton() {
             return false
         }
 
-        const status = firestoreSubscription.status
-
-        if(status === SubscriptionStatus.CANCELED) {
-            return false
-        }
-
         const scheduledChange = firestoreSubscription.scheduled_change
 
         if(scheduledChange === null) {
-            return true
+            return false
         }
 
         const action = scheduledChange.action
 
         if(action === ScheduledAction.CANCEL) {
-            return false
+            return true
         }
 
-        return true
+        return false
     }
 
     return (
-        <Button className={`font-bold ${isButtonShow() ? '' : 'hidden'}`} onClick={async () => await unSubscribe()}>Unsubscribe</Button>
+        <Button className={`font-bold ${isButtonShow() ? '' : 'hidden'}`} onClick={async () => await unSubscribe()}>Remove Cancel Schedule of this subscription</Button>
     )
 }

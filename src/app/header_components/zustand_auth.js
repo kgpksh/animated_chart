@@ -11,6 +11,11 @@ const provider = new GoogleAuthProvider()
 const db = initFireStore()
 const subscriptions = "subscriptions";
 
+const allowedErrors = {
+    'auth/popup-closed-by-user' : true,
+    'auth/cancelled-popup-request' : true
+}
+
 const useAuthStore = create((set, get) => ({
     loggedIn: false, // 로그인 상태 초기화
     firestoreSubscription : null,
@@ -45,10 +50,7 @@ const useAuthStore = create((set, get) => ({
 
             set({ loggedIn: user != null })
         } catch (error) {
-            let isShowAlert = true
-            
-            isShowAlert = !error.message.includes('auth/popup-closed-by-user')
-            isShowAlert = !error.message.includes('auth/cancelled-popup-request')
+            let isShowAlert = allowedErrors.hasOwnProperty(error.message)
 
             if (isShowAlert) {
                 alert('Fail Login')
@@ -65,6 +67,8 @@ const useAuthStore = create((set, get) => ({
         return get().loggedIn
     }
 }))
+
+
 
 const asyncunListenFirestore = async () => 
     onSnapshot(collection(db, subscriptions), () => {})

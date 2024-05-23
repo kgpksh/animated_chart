@@ -29,18 +29,12 @@ export default function SubscriptionButton() {
             return true
         }
 
-        const status = firestoreSubscription.status
-
-        
-        if(status === SubscriptionStatus.ACTIVE) {
-            return false
-        }
-        
-        if(status === SubscriptionStatus.PASTDUE) {
-            return false
+        const status = firestoreSubscription.status        
+        if(status === SubscriptionStatus.CANCELED) {
+            return true
         }
 
-        return true
+        return false
     }
 
     return (
