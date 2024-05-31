@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import useDataFileStore from "./zustand_file_storage";
+import XLSX from 'xlsx'
 
 export default function InputFileButton() {
     const { file } = useDataFileStore();
@@ -13,8 +14,20 @@ export default function InputFileButton() {
             return;
         }
 
+        const reader = new FileReader()
+        reader.onload = function(f) {
+            const data = f.target.result
+            const workbook = XLSX.read(data)
+            console.log("워크북", workbook)
+            const sheet = workbook.Sheets.Sheet1
+            console.log("시트", sheet)
+            console.log("파일 내용", XLSX.utils.sheet_to_json(sheet, {header:1}))
+        }
+
+        reader.readAsArrayBuffer(selectedFile)
+
         useDataFileStore.setState({ file: selectedFile });
-        alert(selectedFile.name);
+        // alert(selectedFile.name);
     };
 
     const handleFileChange = (e) => {
