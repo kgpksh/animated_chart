@@ -5,29 +5,50 @@ import useDataFileStore from "./zustand_file_storage";
 import XLSX from 'xlsx'
 
 export default function InputFileButton() {
-    const { file } = useDataFileStore();
+    const { dataResource } = useDataFileStore();
 
     const handleFile = (selectedFile) => {
         if (!selectedFile) return;
 
-        if (file && !window.confirm("이미 파일이 선택되어 있습니다. 새 파일로 교체하시겠습니까?")) {
-            return;
+        if(dataResource !== null) {
+            const changeAnswer = window.confirm("A file is already selected. Do you want to replace it with a new file?")
+            if(!changeAnswer) {
+                return
+            }
         }
 
         const reader = new FileReader()
         reader.onload = function(f) {
             const data = f.target.result
-            const workbook = XLSX.read(data)
-            console.log("워크북", workbook)
-            const sheet = workbook.Sheets.Sheet1
-            console.log("시트", sheet)
-            console.log("파일 내용", XLSX.utils.sheet_to_json(sheet, {header:1}))
-        }
 
+            const workbook = XLSX.read(data, {dense:true})
+            const sheetName = workbook.SheetNames[0]
+            const sheet = workbook.Sheets[sheetName]
+            console.log('춰크북', workbook)
+            const dataArr = XLSX.utils.sheet_to_json(sheet, {header:1})
+
+            let hasEmptyCell = false
+            for (let i = 0; i < dataArr.length; i++) {
+                for (let j = 0; j < dataArr[i].length; j++) {
+                    if (dataArr[i][j] === undefined || dataArr[i][j] === null || dataArr[i][j] === "") {
+                        hasEmptyCell = true
+                        break
+                    }
+                }
+                if (hasEmptyCell) break
+            }
+
+            if (hasEmptyCell) {
+                alert("Empty cells are included. Please check the data.")
+                return
+            }
+            useDataFileStore.setState({dataResource : dataArr})
+            console.log("데이터 배열 ", dataArr)
+            console.log("결과물 ",dataResource)
+        }
         reader.readAsArrayBuffer(selectedFile)
 
-        useDataFileStore.setState({ file: selectedFile });
-        // alert(selectedFile.name);
+        // useDataFileStore.setState({ file: selectedFile });
     };
 
     const handleFileChange = (e) => {
@@ -44,6 +65,8 @@ export default function InputFileButton() {
     const handleDragOver = (e) => {
         e.preventDefault();
     };
+
+    
 
     return (
         <div
@@ -77,9 +100,12 @@ export default function InputFileButton() {
                         <line x1="12" y1="3" x2="12" y2="15" />
                     </svg>
                 </div>
-                <span className="text-gray-500">Drag files</span>
+                <span className="text-gray-500">Click or drag files here.</span>
                 <span className="text-sm text-gray-400">
-                    Click to upload files (files should be under 10 MB)
+                    Click to upload Excel files (.csv,.xlsx, etc.). Empty cells in data are not allowed.
+                </span>
+                <span className="text-sm text-gray-400">
+                    The dataset should be a single sheet with labels and numbers.
                 </span>
             </label>
         </div>
