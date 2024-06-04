@@ -1,18 +1,15 @@
 "use client"
 
 import Spreadsheet from "react-spreadsheet";
-import useDataFileStore from "./zustand_file_storage";
+import useDataFileStore from "../../zustand_file_storage";
 
 export default function DataTable () {
     const { dataResource, updateValue} = useDataFileStore();
 
-    const handleCellChange = (prevCell, nextCell, coords) => {
-        const {row, column} = coords
-        console.log("프레브", prevCell)
-        console.log("넥스트", nextCell)
-        console.log("좌표", coords)
-        updateValue(row, column, nextCell.value)
-    }
+    // const handleCellChange = (prevCell, nextCell, coords) => {
+    //     const {row, column} = coords
+    //     updateValue(row, column, nextCell.value)
+    // }
 
     const isNotEmptyArr = () => {
         try {
@@ -26,7 +23,7 @@ export default function DataTable () {
     }
 
     return (
-        <div className="overflow-auto max-w-full max-h-96">
+        <div className="overflow-auto max-w-full max-h-full">
             {dataResource && isNotEmptyArr() && (
                 <Spreadsheet
                     data={dataResource.map(row => row.map(cell => ({ value: cell, readOnly : true })))}

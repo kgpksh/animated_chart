@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
           <Header/>
-          <main className="flex flex-col m-10 items-center justify-center h-full w-full">
+          <main className="flex flex-col items-center justify-center h-full w-full mt-11 p-11">
             {children}
           </main>
         </ThemeProvider>

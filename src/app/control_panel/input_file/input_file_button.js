@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import useDataFileStore from "./zustand_file_storage";
+import useDataFileStore from "../../zustand_file_storage";
 import XLSX from 'xlsx'
 
 export default function InputFileButton() {
@@ -24,7 +24,6 @@ export default function InputFileButton() {
             const workbook = XLSX.read(data, {dense:true})
             const sheetName = workbook.SheetNames[0]
             const sheet = workbook.Sheets[sheetName]
-            console.log('춰크북', workbook)
             const dataArr = XLSX.utils.sheet_to_json(sheet, {header:1})
 
             let hasEmptyCell = false
@@ -43,12 +42,8 @@ export default function InputFileButton() {
                 return
             }
             useDataFileStore.setState({dataResource : dataArr})
-            console.log("데이터 배열 ", dataArr)
-            console.log("결과물 ",dataResource)
         }
         reader.readAsArrayBuffer(selectedFile)
-
-        // useDataFileStore.setState({ file: selectedFile });
     };
 
     const handleFileChange = (e) => {
@@ -102,10 +97,13 @@ export default function InputFileButton() {
                 </div>
                 <span className="text-gray-500">Click or drag files here.</span>
                 <span className="text-sm text-gray-400">
-                    Click to upload Excel files (.csv,.xlsx, etc.). Empty cells in data are not allowed.
+                    Click to upload Excel files (.csv,.xlsx, etc).
                 </span>
                 <span className="text-sm text-gray-400">
-                    The dataset should be a single sheet with labels and numbers.
+                    Empty cells in data are not allowed.
+                </span>
+                <span className="text-sm text-gray-400">
+                    Use a single sheet with labels and numbers.
                 </span>
             </label>
         </div>
