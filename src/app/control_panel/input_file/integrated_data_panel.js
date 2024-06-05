@@ -1,5 +1,6 @@
-import DataTable from "./data_table";
+// import DataTable from "./data_table";
 import InputFileButton from "./input_file_button";
+import DataTable from "./table_component";
 
 export default function IntegratedDataPanel() {
     return (
