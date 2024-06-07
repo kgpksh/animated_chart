@@ -1,5 +1,6 @@
 // "use client"
 import ChartView from "./chart_components/chart_component";
+import ControlPanel from "./control_panel/control_panel";
 import IntegratedDataPanel from "./control_panel/input_file/integrated_data_panel";
 
 export default function Home() {
@@ -10,7 +11,7 @@ export default function Home() {
         
       </div>
       <div className='h-full w-1/5'>
-        <IntegratedDataPanel />
+        <ControlPanel/>
       </div>
     </div>
   );

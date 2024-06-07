@@ -19,31 +19,33 @@ export default function DataTable() {
     }, [dataResource]);
 
     return (
-        <Table className='overflow-auto'>
-            <TableBody className='overflow-auto'>
-                {rows.length ? (
-                    rows.map((row, rowIndex) => (
-                        <TableRow key={rowIndex}>
-                            {row.map((cell) => (
-                                <TableCell key={`${rowIndex}-${cell.colIndex}`} className="p-2 border border-gray-300 text-center min-w-[80px] w-[100px] h-[50px]">
-                                    <input
-                                        type="text" // ensure input type is text to allow any input
-                                        value={cell.value}
-                                        onChange={(e) => updateValue(cell.rowIndex, cell.colIndex, e.target.value)}
-                                        className="w-full h-full border-none text-center text-base box-border p-0 m-0 outline-none"
-                                    />
-                                </TableCell>
-                            ))}
+        <div className="w-full max-h-[50vh] overflow-auto">
+            <Table>
+                <TableBody>
+                    {rows.length ? (
+                        rows.map((row, rowIndex) => (
+                            <TableRow key={rowIndex}>
+                                {row.map((cell) => (
+                                    <TableCell key={`${rowIndex}-${cell.colIndex}`} className="p-2 border border-gray-300 text-center min-w-[80px] w-[100px] h-[50px]">
+                                        <input
+                                            type="text" // ensure input type is text to allow any input
+                                            value={cell.value}
+                                            onChange={(e) => updateValue(cell.rowIndex, cell.colIndex, e.target.value)}
+                                            className="w-full h-full border-none text-center text-base box-border p-0 m-0 outline-none"
+                                        />
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={dataResource?.[0]?.length || 1} className="h-24 text-center">
+                                No results.
+                            </TableCell>
                         </TableRow>
-                    ))
-                ) : (
-                    <TableRow>
-                        <TableCell colSpan={dataResource?.[0]?.length || 1} className="h-24 text-center">
-                            No results.
-                        </TableCell>
-                    </TableRow>
-                )}
-            </TableBody>
-        </Table>
+                    )}
+                </TableBody>
+            </Table>   
+        </div>
     );
 }

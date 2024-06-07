@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
               <Header/>
             </header>
           
-          <main className="flex flex-col items-center justify-center h-7/8 w-full mt-11 px-11">
+          <main className="flex flex-col items-center justify-center h-full w-full mt-11 px-11">
             {children}
           </main>
         </ThemeProvider>
