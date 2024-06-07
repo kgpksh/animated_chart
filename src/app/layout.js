@@ -28,8 +28,11 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-          <Header/>
-          <main className="flex flex-col items-center justify-center h-full w-full mt-11 p-11">
+            <header className="flex w-full h-1/8 item-center justify-between">
+              <Header/>
+            </header>
+          
+          <main className="flex flex-col items-center justify-center h-7/8 w-full mt-11 px-11">
             {children}
           </main>
         </ThemeProvider>

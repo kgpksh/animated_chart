@@ -1,82 +1,49 @@
 "use client"
 
 import useDataFileStore from "@/app/zustand_file_storage"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { useMemo } from "react"
 
 export default function DataTable() {
-    const { dataResource, updateValue, transposeData } = useDataFileStore();
+    const { dataResource, updateValue } = useDataFileStore();
 
-    const columns = useMemo(() => {
+    const rows = useMemo(() => {
         if (!dataResource || dataResource.length === 0) return [];
-        return dataResource[0].map((header, colIndex) => ({
-            accessorKey: `col${colIndex}`,
-            header: String(header),
-            cell: ({ row }) => {
-                const cellData = row.original[`col${colIndex}`];
-                const { rowIndex, colIndex: cellColIndex } = cellData;
-                return (
-                    <input
-                        value={cellData.value}
-                        onChange={(e) => updateValue(rowIndex + 1, cellColIndex, e.target.value)}
-                    />
-                );
-            },
-        }));
-    }, [dataResource, updateValue]);
-
-    const data = useMemo(() => {
-        if (!dataResource || dataResource.length === 0) return [];
-        return dataResource.slice(1).map((row, rowIndex) => {
-            return row.reduce((acc, cell, colIndex) => {
-                acc[`col${colIndex}`] = { value: cell, rowIndex, colIndex };
-                return acc;
-            }, {});
+        return dataResource.map((row, rowIndex) => {
+            return row.map((cell, colIndex) => ({
+                value: cell,
+                rowIndex,
+                colIndex
+            }));
         });
     }, [dataResource]);
 
-    const table = useReactTable({
-        data,
-        columns,
-        getCoreRowModel: getCoreRowModel()
-    });
-
     return (
-        <div className="overflow-auto max-w-full max-h-full">
-            <button onClick={transposeData}>Transpose</button>
-            <Table>
-                <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <TableHead key={header.id}>
-                                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                                </TableHead>
+        <Table className='overflow-auto'>
+            <TableBody className='overflow-auto'>
+                {rows.length ? (
+                    rows.map((row, rowIndex) => (
+                        <TableRow key={rowIndex}>
+                            {row.map((cell) => (
+                                <TableCell key={`${rowIndex}-${cell.colIndex}`} className="p-2 border border-gray-300 text-center min-w-[80px] w-[100px] h-[50px]">
+                                    <input
+                                        type="text" // ensure input type is text to allow any input
+                                        value={cell.value}
+                                        onChange={(e) => updateValue(cell.rowIndex, cell.colIndex, e.target.value)}
+                                        className="w-full h-full border-none text-center text-base box-border p-0 m-0 outline-none"
+                                    />
+                                </TableCell>
                             ))}
                         </TableRow>
-                    ))}
-                </TableHeader>
-                <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </div>
-    )
+                    ))
+                ) : (
+                    <TableRow>
+                        <TableCell colSpan={dataResource?.[0]?.length || 1} className="h-24 text-center">
+                            No results.
+                        </TableCell>
+                    </TableRow>
+                )}
+            </TableBody>
+        </Table>
+    );
 }

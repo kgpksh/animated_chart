@@ -1,10 +1,11 @@
-// import DataTable from "./data_table";
+"use client"
+
 import InputFileButton from "./input_file_button";
 import DataTable from "./table_component";
 
 export default function IntegratedDataPanel() {
     return (
-        <div className="flex w-1/4 h-full flex-col items-center p-12">
+        <div className="flex flex-col items-center w-full h-full overflow-auto">
           <InputFileButton></InputFileButton>
           <DataTable></DataTable>
         </div>

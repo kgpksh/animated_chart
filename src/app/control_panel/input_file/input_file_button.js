@@ -65,7 +65,7 @@ export default function InputFileButton() {
 
     return (
         <div
-            className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-2"
+            className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-2 m-5"
             onDrop={handleDrop}
             onDragOver={handleDragOver}
         >

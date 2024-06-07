@@ -22,7 +22,7 @@ export default function Header() {
     }, [])
 
     return (
-        <header className="flex w-full item-center justify-between">
+        <>
             <Link href='/' className="font-bold">To home</Link>
             <div className="flex items-center gap-x-4">
                 <div className={`flex items-center gap-x-4 ${isLoggedIn() ? 'hidden' : true}`}>
@@ -44,7 +44,6 @@ export default function Header() {
                     }}
                 />
             </div>
-            
-        </header>
+        </> 
     )
 }
