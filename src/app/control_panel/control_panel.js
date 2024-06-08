@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import IntegratedDataPanel from "./input_file/integrated_data_panel";
+import ChartControlPanel from "./select_chart_type/chart_control_panel";
 
 export default function ControlPanel() {
     return (
@@ -10,8 +11,8 @@ export default function ControlPanel() {
             </TabsList>
             <TabsContent value='dataManagement'>
                 <IntegratedDataPanel/>
-                </TabsContent>
-            <TabsContent value='chartManagement'></TabsContent>
+            </TabsContent>
+            <TabsContent value='chartManagement' className='w-full h-full'><ChartControlPanel/></TabsContent>
         </Tabs>
     )
 }
