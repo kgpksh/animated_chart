@@ -10,6 +10,14 @@ const useDataFileStore = create((set, get) => ({
             return { dataResource: newDataResource };
         });
     },
+    transpose: () => {
+        set((state) => {
+            const transposed = state.dataResource[0].map((_, colIndex) =>
+                state.dataResource.map(row => row[colIndex])
+            );
+            return { dataResource: transposed };
+        });
+    }
 }));
 
 export default useDataFileStore;

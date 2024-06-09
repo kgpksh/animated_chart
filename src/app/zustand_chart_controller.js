@@ -12,6 +12,14 @@ const chartController = create((set) => ({
     setBackgroundColor(color) {
         set({backgroundColor : color})
     },
+
+    useLabel : false,
+    changeUseLabelStatus() {
+        set((state) => {
+            const changedState = !(state.useLabel)
+            return {useLabel : changedState}
+        })
+    },
     
     options : {},
     setOptions(option) {
