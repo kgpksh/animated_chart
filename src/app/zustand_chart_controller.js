@@ -1,9 +1,16 @@
+import { BigChartTypes } from "./chart-parts-provider";
+
 const { create } = require("zustand");
 
 const chartController = create((set) => ({
-    chartType : null,
+    chartType : BigChartTypes.BAR,
     selectChartType(inputType) {
         set({chartType : inputType})
+    },
+
+    backgroundColor: '#FFFFFF',
+    setBackgroundColor(color) {
+        set({backgroundColor : color})
     },
     
     options : {},

@@ -4,7 +4,7 @@ import ChartControlPanel from "./select_chart_type/chart_control_panel";
 
 export default function ControlPanel() {
     return (
-        <Tabs defaultValue="dataManagement" className="flex flex-col items-center w-96">
+        <Tabs defaultValue="dataManagement" className="flex flex-col items-center w-96 border">
             <TabsList className='grid w-full grid-cols-2'>
                 <TabsTrigger value='dataManagement'>Import Data</TabsTrigger>
                 <TabsTrigger value='chartManagement'>Chart</TabsTrigger>

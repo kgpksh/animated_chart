@@ -27,7 +27,6 @@ export default function ChartControlPanel() {
                         <Moon size={chartTypeIconSize}/>
                     </button>
                 </div>
-                <button onClick={() => console.log(chartType)}>test</button>
         </div>
     )
 }
