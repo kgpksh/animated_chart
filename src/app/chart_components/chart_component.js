@@ -26,10 +26,18 @@ export default function ChartView() {
   const {dataResource } = useDataFileStore()
   const {chartType, backgroundColor} = chartController()
 
-  const datasets = [];
-  for (let i = 1; i < dataResource.length; i++) {
-      datasets.push({ label: 'test', data: dataResource[i] });
+
+  const getDataSets = () => {
+    if(!dataResource) {
+      return []
+    }
+    const datasets = [];
+    for (let i = 1; i < dataResource.length; i++) {
+        datasets.push({ label: 'asdf', data: dataResource[i] });
+    }
+    return datasets
   }
+  
   
   const data = () => {
     if (!dataResource) {
@@ -41,23 +49,32 @@ export default function ChartView() {
   
     return {
       labels:dataResource[0],
-      // datasets: [
-      //   {
-      //     label:'first',
-      //     data : dataResource[1]
-      //   },
-      //   {
-      //     label:'asdf',
-      //     data : dataResource[2]
-      //   }
-      // ]
-      datasets : datasets
+      datasets: [
+        {
+          label:'first',
+          data : dataResource[1]
+        },
+        {
+          label:'asdf',
+          data : dataResource[2]
+        }
+      ]
+      // datasets : getDataSets()
     }
   }
 
   
 
   const options = {
+    indexAxis : 'x',
+    scales: {
+      x: {
+        beginAtZero: true
+      },
+      y: {
+        beginAtZero: true
+      }
+    },
     plugins: {
       customCanvasBackgroundColor: {
         color : backgroundColor

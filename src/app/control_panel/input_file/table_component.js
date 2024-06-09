@@ -19,7 +19,7 @@ export default function DataTable() {
     }, [dataResource]);
 
     return (
-        <div className="w-full max-h-[50vh] overflow-auto">
+        <div className="w-full max-h-[52vh] overflow-auto">
             <Table>
                 <TableBody>
                     {rows.length ? (

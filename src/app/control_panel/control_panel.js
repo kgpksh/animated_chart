@@ -4,7 +4,7 @@ import ChartControlPanel from "./select_chart_type/chart_control_panel";
 
 export default function ControlPanel() {
     return (
-        <Tabs defaultValue="dataManagement" className="flex flex-col items-center w-96 border">
+        <Tabs defaultValue="dataManagement" className="flex flex-col items-center w-96 h-[85vh] border p-3">
             <TabsList className='grid w-full grid-cols-2'>
                 <TabsTrigger value='dataManagement'>Import Data</TabsTrigger>
                 <TabsTrigger value='chartManagement'>Chart</TabsTrigger>
@@ -12,7 +12,9 @@ export default function ControlPanel() {
             <TabsContent value='dataManagement'>
                 <IntegratedDataPanel/>
             </TabsContent>
-            <TabsContent value='chartManagement' className='w-full h-full'><ChartControlPanel/></TabsContent>
+            <TabsContent value='chartManagement' className='w-full h-full'>
+                <ChartControlPanel/>
+            </TabsContent>
         </Tabs>
     )
 }
