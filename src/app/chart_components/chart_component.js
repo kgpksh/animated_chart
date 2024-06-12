@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Colors } from "chart.js";
 import { Bar, Doughnut, Line, Pie, Scatter } from "react-chartjs-2";
 import useDataFileStore from "../zustand_file_storage";
@@ -11,12 +11,43 @@ ChartJS.register(ArcElement, PointElement, LineElement, CategoryScale, Tooltip, 
 export default function ChartView() {
   const chartRef = useRef(null);
   const { dataResource } = useDataFileStore();
-  const { chartType, backgroundColor, useLabel } = chartController();
+  const { chartType, backgroundColor, useLabel, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis } = chartController();
   const [key, setKey] = useState(0);
+
+  const common = {
+    indexAxis: indexAxis,
+    plugins: {
+      customCanvasBackgroundColor: {
+        color: backgroundColor
+      }
+    }
+  };
+
+  const currentOptionType = {
+    [BigChartTypes.BAR]: barOptions,
+    [BigChartTypes.LINE]: lineOptions,
+    [BigChartTypes.PIE]: pieOptions,
+    [BigChartTypes.DONUT]: donutOptions,
+    [BigChartTypes.SCATTERED]: scatteredOptions,
+  };
+
+  const deepMerge = (target, source) => {
+    const output = { ...target };
+    for (const key of Object.keys(source)) {
+      if (source[key] instanceof Object && key in target) {
+        output[key] = deepMerge(target[key], source[key]);
+      } else {
+        output[key] = source[key];
+      }
+    }
+    return output;
+  };
+
+  const allOptions = JSON.stringify({ common, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions });
 
   useEffect(() => {
     setKey(prevKey => prevKey + 1);
-  }, [dataResource]);
+  }, [dataResource, chartType, allOptions]);
 
   const plugin = {
     id: 'customCanvasBackgroundColor',
@@ -53,31 +84,16 @@ export default function ChartView() {
       labels: useLabel ? dataResource[0].slice(1) : dataResource[0],
       datasets: getDataSets()
     };
-  };
+  }
 
-  const options = {
-    indexAxis: 'x',
-    scales: {
-      x: {
-        beginAtZero: true
-      },
-      y: {
-        beginAtZero: true
-      }
-    },
-    plugins: {
-      customCanvasBackgroundColor: {
-        color: backgroundColor
-      }
-    }
-  };
+  const updatedOption = deepMerge(common, currentOptionType[chartType]);
 
   const chartTypes = {
-    [BigChartTypes.BAR]: <Bar key={key} ref={chartRef} data={data()} options={options} plugins={[plugin]} />,
-    [BigChartTypes.LINE]: <Line key={key} ref={chartRef} data={data()} options={options} plugins={[plugin]} />,
-    [BigChartTypes.PIE]: <Pie key={key} ref={chartRef} data={data()} options={options} plugins={[plugin]} />,
-    [BigChartTypes.SCATTERED]: <Scatter key={key} ref={chartRef} data={data()} options={options} plugins={[plugin]} />,
-    [BigChartTypes.DONUT]: <Doughnut key={key} ref={chartRef} data={data()} options={options} plugins={[plugin]} />
+    [BigChartTypes.BAR]: <Bar key={key} ref={chartRef} title="asdfasdfasf" data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.LINE]: <Line key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.PIE]: <Pie key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.SCATTERED]: <Scatter key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.DONUT]: <Doughnut key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />
   };
 
   return (
