@@ -5,10 +5,11 @@ import chartController from "@/app/zustand_chart_controller";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart2, LineChartIcon, Moon, PieChart, ScatterChart } from "lucide-react";
+import TitleController from "./title_controller";
 
 export default function ChartControlPanel() {
     const chartTypeIconSize = 64
-    const {chartType, selectChartType, changeIndexAxis, barOptions, setBarOptions} = chartController()
+    const {chartType, selectChartType, indexAxis, changeIndexAxis, barOptions, setBarOptions} = chartController()
     return (
         <div className="text-xl font-black p-2">
             <div>Chart type</div>
@@ -30,22 +31,25 @@ export default function ChartControlPanel() {
                 </button>
             </div>
             { chartType !== BigChartTypes.PIE ?
-                <div className="flex flex-col">
-                    <div className="mt-2">Axis direction</div>
+                
+                <div className="flex flex-col mt-3">
+                    <div>Axis direction</div>
                     <Tabs 
-                        defaultValue="vertical" 
+                        defaultValue = {indexAxis === 'x' ? 'vertical' : 'horizontal'} 
                         onValueChange={(value) => {
                             const newIndexAxis = value === 'vertical' ? 'x' : 'y'
                             changeIndexAxis(newIndexAxis)
                         }}>
                         <TabsList className='grid w-full grid-cols-2 mt-3'>
                             <TabsTrigger value='vertical'>Vertical</TabsTrigger>
-                            <TabsTrigger value = 'horizonal'>Horizonal</TabsTrigger>
+                            <TabsTrigger value = 'horizontal'>Horizontal</TabsTrigger>
                         </TabsList>
                     </Tabs>
                 </div>
-                :''
+                : ''
             }
+
+            <TitleController></TitleController>
             
             
             {chartType === BigChartTypes.BAR ?
@@ -53,11 +57,10 @@ export default function ChartControlPanel() {
                 <Checkbox
                 id={'barStack'}
                 checked={barOptions.scales.y.stacked}
-                onCheckedChange={() => {
+                onCheckedChange={(checked) => {
                     const newStacked = { ...barOptions }
-                    const yStacked = newStacked.scales.y.stacked
-                    newStacked.scales.x.stacked = !yStacked
-                    newStacked.scales.y.stacked = !yStacked
+                    newStacked.scales.x.stacked = checked
+                    newStacked.scales.y.stacked = checked
                     setBarOptions(newStacked)
                 }}
                 className='mr-2'></Checkbox>

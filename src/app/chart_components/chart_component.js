@@ -1,17 +1,17 @@
 "use client";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Colors } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Colors, Title } from "chart.js";
 import { Bar, Doughnut, Line, Pie, Scatter } from "react-chartjs-2";
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
 import { useRef, useEffect, useState } from "react";
 
-ChartJS.register(ArcElement, PointElement, LineElement, CategoryScale, Tooltip, Legend, LinearScale, BarElement, Colors);
+ChartJS.register(ArcElement, PointElement, LineElement, CategoryScale, Tooltip, Legend, LinearScale, BarElement, Colors, Title);
 
 export default function ChartView() {
   const chartRef = useRef(null);
   const { dataResource } = useDataFileStore();
-  const { chartType, backgroundColor, useLabel, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis } = chartController();
+  const { chartType, backgroundColor, title, useLabel, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis } = chartController();
   const [key, setKey] = useState(0);
 
   const common = {
@@ -19,7 +19,11 @@ export default function ChartView() {
     plugins: {
       customCanvasBackgroundColor: {
         color: backgroundColor
-      }
+      },
+      legend: {
+        display : useLabel
+      },
+      title: title
     }
   };
 
@@ -89,7 +93,7 @@ export default function ChartView() {
   const updatedOption = deepMerge(common, currentOptionType[chartType]);
 
   const chartTypes = {
-    [BigChartTypes.BAR]: <Bar key={key} ref={chartRef} title="asdfasdfasf" data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.BAR]: <Bar key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
     [BigChartTypes.LINE]: <Line key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
     [BigChartTypes.PIE]: <Pie key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
     [BigChartTypes.SCATTERED]: <Scatter key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,

@@ -6,14 +6,15 @@ const modelOptions = {
   scales: {
     x: {
       beginAtZero: true,
-      stacked: true
+      stacked: false
     },
     y: {
       beginAtZero: true,
-      stacked: true
+      stacked: false
     }
   },
   plugins: {
+    
   }
 }
 Object.freeze(modelOptions)
@@ -39,6 +40,22 @@ const chartController = create((set, get) => ({
       const changedState = !(state.useLabel)
       return {useLabel : changedState}
     })
+  },
+
+  title: {
+    display : false,
+    text : 'New title',
+    color: null,
+    align: 'center',
+    position: 'top',
+    font :{
+      size : 20,
+      weight : 'bold'
+    },
+  },
+
+  changeTitle(title){
+    set({title : title})
   },
 
   barOptions: {...modelOptions},
