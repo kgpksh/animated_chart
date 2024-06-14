@@ -3,16 +3,6 @@ import { BigChartTypes } from "./chart-parts-provider";
 const { create } = require("zustand");
 
 const modelOptions = {
-  scales: {
-    x: {
-      beginAtZero: true,
-      stacked: false
-    },
-    y: {
-      beginAtZero: true,
-      stacked: false
-    }
-  },
   plugins: {
     
   }
@@ -42,6 +32,39 @@ const chartController = create((set, get) => ({
     })
   },
 
+  cartesianScale : {
+    x: {
+      min : null,
+      max : null,
+      stacked: false,
+      title : {
+        display : false,
+        text : 'X'
+      },
+      type:'category',
+      ticks: {
+        stepSize: null
+      }
+    },
+    y: {
+      min : null,
+      max : null,
+      stacked: false,
+      title : {
+        display : false,
+        text : 'Y'
+      },
+      
+      type:'linear',
+      // ticks: {
+      //   stepSize: 1
+      // }
+    }
+  },
+  changeCartesianScale(scale){
+    set({cartesianScale : scale})
+  },
+
   title: {
     display : false,
     text : 'New title',
@@ -53,7 +76,6 @@ const chartController = create((set, get) => ({
       weight : 'bold'
     },
   },
-
   changeTitle(title){
     set({title : title})
   },

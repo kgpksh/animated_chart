@@ -1,21 +1,30 @@
 "use client";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Colors, Title } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Colors, Title, LogarithmicScale } from "chart.js";
 import { Bar, Doughnut, Line, Pie, Scatter } from "react-chartjs-2";
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
 import { useRef, useEffect, useState } from "react";
 
-ChartJS.register(ArcElement, PointElement, LineElement, CategoryScale, Tooltip, Legend, LinearScale, BarElement, Colors, Title);
+ChartJS.register(ArcElement, PointElement, LineElement, CategoryScale, Tooltip, Legend, LinearScale, BarElement, Colors, Title, LogarithmicScale);
 
 export default function ChartView() {
   const chartRef = useRef(null);
   const { dataResource } = useDataFileStore();
-  const { chartType, backgroundColor, title, useLabel, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis } = chartController();
+  const { chartType, backgroundColor, title, useLabel, cartesianScale, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis } = chartController();
   const [key, setKey] = useState(0);
+
+  const scaleOptions = {
+    [BigChartTypes.BAR]: cartesianScale,
+    [BigChartTypes.LINE]: cartesianScale,
+    [BigChartTypes.PIE]: {},
+    [BigChartTypes.DONUT]: {},
+    [BigChartTypes.SCATTERED]: cartesianScale,
+  }
 
   const common = {
     indexAxis: indexAxis,
+    scales : scaleOptions[chartType],
     plugins: {
       customCanvasBackgroundColor: {
         color: backgroundColor
