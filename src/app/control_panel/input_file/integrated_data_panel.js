@@ -17,7 +17,7 @@ export default function IntegratedDataPanel() {
         <InputFileButton/>
         <DataTable/>
         {dataResource? <div className="flex flex-col mt-5">
-          <Button className='mb-3' onClick={() => transpose()}>Change the direction of the X/Y axis</Button>
+          <Button className='mb-3' onClick={() => transpose()}>Change the direction of the X/Y axes</Button>
           <div className="hover:cursor-pointer">
             <Checkbox id={datasetLabel} checked={useLabel} onCheckedChange={changeUseLabelStatus} className='mr-2'></Checkbox>
             <label 

@@ -33,18 +33,21 @@ export default function ChartControlPanel() {
             { chartType !== BigChartTypes.PIE ?
                 
                 <div className="flex flex-col mt-3">
-                    <div>Axis direction</div>
-                    <Tabs 
-                        defaultValue = {indexAxis === 'x' ? 'vertical' : 'horizontal'} 
-                        onValueChange={(value) => {
-                            const newIndexAxis = value === 'vertical' ? 'x' : 'y'
-                            changeIndexAxis(newIndexAxis)
-                        }}>
-                        <TabsList className='grid w-full grid-cols-2 mt-3'>
-                            <TabsTrigger value='vertical'>Vertical</TabsTrigger>
-                            <TabsTrigger value = 'horizontal'>Horizontal</TabsTrigger>
-                        </TabsList>
-                    </Tabs>
+                    <div>Axes</div>
+                    <div className="rounded-md border-2 p-3 mt-2">
+                        <div className="text-base">Direction</div>
+                        <Tabs 
+                            defaultValue = {indexAxis === 'x' ? 'vertical' : 'horizontal'} 
+                            onValueChange={(value) => {
+                                const newIndexAxis = value === 'vertical' ? 'x' : 'y'
+                                changeIndexAxis(newIndexAxis)
+                            }}>
+                            <TabsList className='grid w-full grid-cols-2 my-1'>
+                                <TabsTrigger value='vertical'>Vertical</TabsTrigger>
+                                <TabsTrigger value = 'horizontal'>Horizontal</TabsTrigger>
+                            </TabsList>
+                        </Tabs>
+                    </div>
                 </div>
                 : ''
             }
