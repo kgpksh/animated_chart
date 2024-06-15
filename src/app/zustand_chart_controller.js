@@ -10,6 +10,12 @@ const modelOptions = {
 Object.freeze(modelOptions)
 
 const chartController = create((set, get) => ({
+  key : 0,
+  changeKey() {
+    set({key : get().key === 0 ? 1 : 0})
+  },
+  chartRef: null,
+  setChartRef: (ref) => set({ chartRef: ref }),
   chartType : BigChartTypes.BAR,
   selectChartType(inputType) {
       set({chartType : inputType})
@@ -82,24 +88,24 @@ const chartController = create((set, get) => ({
 
   barOptions: {...modelOptions},
     setBarOptions(option) {
-      set({[BigChartTypes.LINE] : option})
+      set({barOptions : option})
     },
     
   lineOptions : {...modelOptions},
   setLineOptions(option) {
-      set({options : option})
+      set({lineOptions : option})
     },
   pieOptions : {...modelOptions},
     setBarOptions(option) {
-      set({[BigChartTypes.PIE] : option})
+      set({pieOptions : option})
     },
   scatteredOptions : {...modelOptions},
     setBarOptions(option) {
-      set({[BigChartTypes.SCATTERED] : option})
+      set({scatteredOptions : option})
     },
   donutOptions : {...modelOptions},
     setBarOptions(option) {
-      set({[BigChartTypes.DONUT] : option})
+      set({donutOptions : option})
     },
 }))
 

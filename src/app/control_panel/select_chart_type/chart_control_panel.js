@@ -39,26 +39,7 @@ export default function ChartControlPanel() {
                 
             </div>
 
-            <TitleController></TitleController>            
-            
-            {/* {isCartesian(chartType) ?
-                <div className="hover:cursor-pointer mt-3 ml-2">
-                <Checkbox
-                id={'barStack'}
-                checked={cartesianScale.y.stacked}
-                onCheckedChange={(checked) => {
-                    const newStacked = { ...cartesianScale }
-                    newStacked.x.stacked = checked
-                    newStacked.y.stacked = checked
-                    changeCartesianScale(newStacked)
-                }}
-                className='mr-2'></Checkbox>
-                <label 
-                  htmlFor={'barStack'}
-                  className="text-sm hover:cursor-pointer"
-                >Stacked Chart</label>
-              </div>
-             : ''} */}
+            <TitleController></TitleController>
             
         </ScrollArea>
     )

@@ -1,18 +1,17 @@
 "use client";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Colors, Title, LogarithmicScale } from "chart.js";
-import { Bar, Doughnut, Line, Pie, Scatter } from "react-chartjs-2";
+import { Chart as ChartJS, registerables } from "chart.js";
+import { Bar, Chart, Doughnut, Line, Pie, Scatter } from "react-chartjs-2";
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 
-ChartJS.register(ArcElement, PointElement, LineElement, CategoryScale, Tooltip, Legend, LinearScale, BarElement, Colors, Title, LogarithmicScale);
+ChartJS.register(...registerables);
 
 export default function ChartView() {
-  const chartRef = useRef(null);
+  const localChartRef = useRef(null);
   const { dataResource } = useDataFileStore();
-  const { chartType, backgroundColor, title, useLabel, cartesianScale, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis } = chartController();
-  const [key, setKey] = useState(0);
+  const { key, changeKey, chartType, backgroundColor, title, useLabel, cartesianScale, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis, chartRef, setChartRef } = chartController();
 
   const scaleOptions = {
     [BigChartTypes.BAR]: cartesianScale,
@@ -59,21 +58,22 @@ export default function ChartView() {
   const allOptions = JSON.stringify({ common, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions });
 
   useEffect(() => {
-    setKey(prevKey => prevKey + 1);
-  }, [dataResource, chartType, allOptions]);
+    changeKey();
+    setChartRef(localChartRef);
+    console.log(key)
+  }, [dataResource, chartType, allOptions, backgroundColor]);
 
   const plugin = {
     id: 'customCanvasBackgroundColor',
-    beforeDraw: (chart, args, options) => {
-      const ctx = chartRef.current.ctx;
+    beforeDraw: (chart) => {
+      const ctx = chart.ctx;
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = options.color || '#ffffff';
+      ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     }
   };
-
   const getDataSets = () => {
     if (!dataResource) {
       return [];
@@ -102,14 +102,21 @@ export default function ChartView() {
   const updatedOption = deepMerge(common, currentOptionType[chartType]);
 
   const chartTypes = {
-    [BigChartTypes.BAR]: <Bar key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.LINE]: <Line key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.PIE]: <Pie key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.SCATTERED]: <Scatter key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.DONUT]: <Doughnut key={key} ref={chartRef} data={data()} options={updatedOption} plugins={[plugin]} />
+    [BigChartTypes.BAR]: <Bar key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.LINE]: <Line key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.PIE]: <Pie key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.SCATTERED]: <Scatter key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
+    [BigChartTypes.DONUT]: <Doughnut key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />
   };
 
   return (
-    dataResource ? chartTypes[chartType] : ''
+    <Chart
+    ref={localChartRef}
+    type={chartType}
+    options={updatedOption}
+    data={data()}
+    plugins={[plugin]}
+    key={key}
+    />
   );
 }
