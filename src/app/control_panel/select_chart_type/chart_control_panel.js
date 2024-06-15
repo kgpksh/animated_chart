@@ -6,6 +6,7 @@ import { BarChart2, LineChartIcon, Moon, PieChart, ScatterChart } from "lucide-r
 import TitleController from "./title_controller";
 import CartesianController from "./axes/cartesian/cartesian_axes";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function ChartControlPanel() {
     const chartTypeIconSize = 64
@@ -30,8 +31,19 @@ export default function ChartControlPanel() {
                     <Moon size={chartTypeIconSize}/>
                 </button>
             </div>
+
+            <Accordion type="multiple" collapsible defaultValue={['axes']}>
+                <AccordionItem value='axes'>
+                    <AccordionTrigger>Axes</AccordionTrigger>
+                    <AccordionContent><CartesianController></CartesianController></AccordionContent>
+                </AccordionItem>
+                <AccordionItem value='title'>
+                    <AccordionTrigger>Title</AccordionTrigger>
+                    <AccordionContent><TitleController></TitleController></AccordionContent>
+                </AccordionItem>
+            </Accordion>
                 
-            <div className="flex flex-col mt-3">
+            {/* <div className="flex flex-col mt-3">
                 <div>Axes</div>
                 <div className="rounded-md border-2 p-3 mt-2">
                     <CartesianController></CartesianController>
@@ -39,7 +51,7 @@ export default function ChartControlPanel() {
                 
             </div>
 
-            <TitleController></TitleController>
+            <TitleController></TitleController> */}
             
         </ScrollArea>
     )

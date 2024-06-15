@@ -16,8 +16,7 @@ export default function TitleController() {
     let position = title.position
     let align = title.align
     return (
-        <div className="flex flex-col mt-4">
-            Title
+        <div className="flex flex-col">
             <div className="rounded-md border-2 p-3 mt-2">
                 <div>
                     <div className="flex items-center space-x-2 mt-2">

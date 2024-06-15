@@ -29,7 +29,7 @@ export default function AxesController({axis}) {
                     <SelectContent>
                         <SelectGroup>
                             <SelectLabel>Axis type</SelectLabel>
-                            <SelectItem value='category'>Category</SelectItem>
+                            <SelectItem value='category'>'Category'</SelectItem>
                             <SelectItem value='linear'>Linear</SelectItem>
                             <SelectItem value='logarithmic'>Log</SelectItem>
                         </SelectGroup>
