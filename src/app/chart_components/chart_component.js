@@ -60,7 +60,6 @@ export default function ChartView() {
   useEffect(() => {
     changeKey();
     setChartRef(localChartRef);
-    console.log(key)
   }, [dataResource, chartType, allOptions, backgroundColor]);
 
   const plugin = {

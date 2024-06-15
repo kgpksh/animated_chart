@@ -45,7 +45,12 @@ const chartController = create((set, get) => ({
       stacked: false,
       title : {
         display : false,
-        text : 'X'
+        text : 'X',
+        align : 'end',
+        font : {
+          size : 50,
+          weight : 'bold'
+        }
       },
       type:'category',
       ticks: {
@@ -58,13 +63,18 @@ const chartController = create((set, get) => ({
       stacked: false,
       title : {
         display : false,
-        text : 'Y'
+        text : 'Y',
+        align : 'end',
+        font : {
+          size : 50,
+          weight : 'bold'
+        }
       },
       
       type:'linear',
-      // ticks: {
-      //   stepSize: 1
-      // }
+      ticks: {
+        stepSize: null
+      }
     }
   },
   changeCartesianScale(scale){
