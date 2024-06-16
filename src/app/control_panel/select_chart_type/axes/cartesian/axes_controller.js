@@ -140,6 +140,7 @@ export default function AxesController({axis}) {
                         } else {
                             const newVal = minRef.current.value
                             if(newVal === null || newVal === '') {
+                                alert('Please input min number')
                                 return
                             }
 
@@ -173,6 +174,7 @@ export default function AxesController({axis}) {
                         } else {
                             const newVal = maxRef.current.value
                             if(newVal === null || newVal === '') {
+                                alert('Please input max number')
                                 return
                             }
 
@@ -193,6 +195,21 @@ export default function AxesController({axis}) {
                     ref={maxRef}
                     type='number'
                 ></Input>
+            </div>
+
+            <h5 className="text-sm mt-2">Grid</h5>
+            <div className="flex mt-1 ml-2 items-center">
+                <Checkbox
+                        id={'grid'}
+                        className='mr-2'
+                        checked={cartesianScale[axis]?.grid.display}
+                        onCheckedChange={(checked) => {
+                            const newGrid = { ...cartesianScale }
+                            newGrid[axis].grid.display = checked
+                            changeCartesianScale(newGrid)
+                        }}
+                    />
+                <Label htmlFor={'grid'} className='font-bold hover:cursor-pointer mr-2'>{'Show ' + axis.toUpperCase() + ' grid'}</Label>
             </div>
         </div>
     )

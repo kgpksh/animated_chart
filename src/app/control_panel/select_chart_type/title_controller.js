@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useRef } from "react"
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
 
 export default function TitleController() {
     const { title, changeTitle } = chartController()
@@ -15,6 +18,7 @@ export default function TitleController() {
     let fontWeight = title.font.weight
     let position = title.position
     let align = title.align
+    const [color, setColor] = useColor(title.color);
     return (
         <div className="flex flex-col">
             <div className="rounded-md border-2 p-3 mt-2">
@@ -100,7 +104,7 @@ export default function TitleController() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="w-1/2">
+                        <div className="w-1/2 mr-2">
                             <Select
                                 onValueChange={(value) => align = value}
                                 defaultValue={title.align}
@@ -118,6 +122,22 @@ export default function TitleController() {
                                 </SelectContent>
                             </Select>
                         </div>
+                        <Popover
+                        onOpenChange={(isOpen) => {
+                            if(!isOpen) {
+                                const newTitle = {...title}
+                                newTitle.color = color.hex
+                                changeTitle(newTitle)
+                            }
+                        }}
+                        >
+                            <PopoverTrigger>
+                                <Button variant="outline">
+                                    <div className="w-[20px] h-[20px] mr-2 border" style={{ backgroundColor: title.color }}></div> Change color
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent><ColorPicker color={color} onChange={setColor}/></PopoverContent>
+                    </Popover>
                         
                     </div>
                     <Button className='mt-3' disabled={!(title.display)}>Apply Title</Button>

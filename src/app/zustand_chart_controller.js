@@ -55,6 +55,9 @@ const chartController = create((set, get) => ({
       type:'category',
       ticks: {
         stepSize: null
+      },
+      grid : {
+        display : true
       }
     },
     y: {
@@ -74,6 +77,9 @@ const chartController = create((set, get) => ({
       type:'linear',
       ticks: {
         stepSize: null
+      },
+      grid : {
+        display : true
       }
     }
   },
@@ -84,7 +90,7 @@ const chartController = create((set, get) => ({
   title: {
     display : false,
     text : 'New title',
-    color: null,
+    color: '#000000',
     align: 'center',
     position: 'top',
     font :{

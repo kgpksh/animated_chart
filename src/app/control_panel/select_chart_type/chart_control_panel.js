@@ -7,6 +7,7 @@ import TitleController from "./title_controller";
 import CartesianController from "./axes/cartesian/cartesian_axes";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import BackgroundController from "./background_controller";
 
 export default function ChartControlPanel() {
     const chartTypeIconSize = 64
@@ -35,23 +36,17 @@ export default function ChartControlPanel() {
             <Accordion type="multiple" collapsible defaultValue={['axes']}>
                 <AccordionItem value='axes'>
                     <AccordionTrigger>Axes</AccordionTrigger>
-                    <AccordionContent><CartesianController></CartesianController></AccordionContent>
+                    <AccordionContent><CartesianController/></AccordionContent>
+                </AccordionItem>
+                <AccordionItem value='background'>
+                    <AccordionTrigger>Background</AccordionTrigger>
+                    <AccordionContent><BackgroundController/></AccordionContent>
                 </AccordionItem>
                 <AccordionItem value='title'>
                     <AccordionTrigger>Title</AccordionTrigger>
-                    <AccordionContent><TitleController></TitleController></AccordionContent>
+                    <AccordionContent><TitleController/></AccordionContent>
                 </AccordionItem>
             </Accordion>
-                
-            {/* <div className="flex flex-col mt-3">
-                <div>Axes</div>
-                <div className="rounded-md border-2 p-3 mt-2">
-                    <CartesianController></CartesianController>
-                </div>
-                
-            </div>
-
-            <TitleController></TitleController> */}
             
         </ScrollArea>
     )
