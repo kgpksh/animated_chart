@@ -54,10 +54,15 @@ const chartController = create((set, get) => ({
       },
       type:'category',
       ticks: {
-        stepSize: null
+        stepSize: null,
+        color : null,
+        font : {
+          size : null
+        }
       },
       grid : {
-        display : true
+        display : true,
+        color : 'lightgrey'
       }
     },
     y: {
@@ -76,10 +81,15 @@ const chartController = create((set, get) => ({
       
       type:'linear',
       ticks: {
-        stepSize: null
+        stepSize: null,
+        color : null,
+        font : {
+          size : null
+        }
       },
       grid : {
-        display : true
+        display : true,
+        color : 'lightgrey'
       }
     }
   },

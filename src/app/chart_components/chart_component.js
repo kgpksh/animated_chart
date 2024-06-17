@@ -23,6 +23,9 @@ export default function ChartView() {
   }
 
   const common = {
+    layout : {
+      padding : 20
+    },
     elements : (chartType === BigChartTypes.RADAR) ? radarElementsFill : null,
     indexAxis: indexAxis,
     scales : scaleOptions[chartType],

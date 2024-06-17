@@ -1,9 +1,13 @@
 import chartController from "@/app/zustand_chart_controller"
+import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useRef } from "react"
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
 
 export default function AxesController({axis}) {
     const {cartesianScale, changeCartesianScale} = chartController()
@@ -11,6 +15,8 @@ export default function AxesController({axis}) {
     const maxRef = useRef(null)
     const titleRef = useRef(null)
     const titleFontRef = useRef(null)
+    const tickSizetRef = useRef(null)
+    const [color, setColor] = useColor(cartesianScale[axis].grid.color);
 
     return (
         <div className="flex flex-col mt-2">
@@ -210,7 +216,58 @@ export default function AxesController({axis}) {
                         }}
                     />
                 <Label htmlFor={'grid'} className='font-bold hover:cursor-pointer mr-2'>{'Show ' + axis.toUpperCase() + ' grid'}</Label>
+
+                <Popover
+                    onOpenChange={(isOpen) => {
+                        if(!isOpen) {
+                            const newGrid = { ...cartesianScale }
+                            newGrid[axis].grid.color = color.hex
+                            changeCartesianScale(newGrid)
+                        }
+                    }}
+                    >
+                    <PopoverTrigger>
+                        <Button variant="outline">
+                            <div className="w-[20px] h-[20px] mr-2 border" style={{ backgroundColor: cartesianScale[axis].grid.color }}></div> Change color
+                            </Button>
+                        </PopoverTrigger>
+                    <PopoverContent><ColorPicker color={color} onChange={setColor}/></PopoverContent>
+                </Popover>
             </div>
+
+            <h5 className="text-sm mt-2">Ticks</h5>
+            <div className="flex mt-1 ml-2 items-center">
+            <Popover
+                    onOpenChange={(isOpen) => {
+                        if(!isOpen) {
+                            const newGrid = { ...cartesianScale }
+                            newGrid[axis].ticks.color = color.hex
+                            changeCartesianScale(newGrid)
+                        }
+                    }}
+                    >
+                    <PopoverTrigger>
+                        <Button variant="outline">
+                            <div className="w-[20px] h-[20px] mr-2 border" style={{ backgroundColor: cartesianScale[axis].ticks.color }}></div> Change color
+                            </Button>
+                        </PopoverTrigger>
+                    <PopoverContent><ColorPicker color={color} onChange={setColor}/></PopoverContent>
+                </Popover>
+                <Input
+                    defaultValue = {cartesianScale[axis]?.ticks.font.size}
+                    onChange={() => {
+                        const newGrid = { ...cartesianScale }
+                        newGrid[axis].ticks.font.size = tickSizetRef.current.value
+                        changeCartesianScale(newGrid)
+                    }}
+                    placeholder='Font size'
+                    className='w-1/2 ml-2'
+                    ref={tickSizetRef}
+                    type='number'
+                    min='0'
+                />
+            </div>
+            
         </div>
     )
 }
