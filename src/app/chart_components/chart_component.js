@@ -1,5 +1,5 @@
 "use client";
-import { Chart as ChartJS, registerables } from "chart.js";
+import { Chart as ChartJS, elements, registerables } from "chart.js";
 import { Bar, Chart, Doughnut, Line, Pie, Scatter } from "react-chartjs-2";
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
@@ -11,7 +11,7 @@ ChartJS.register(...registerables);
 export default function ChartView() {
   const localChartRef = useRef(null);
   const { dataResource } = useDataFileStore();
-  const { key, changeKey, chartType, backgroundColor, title, useLabel, cartesianScale, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis, chartRef, setChartRef } = chartController();
+  const { key, changeKey, chartType, backgroundColor, title, useLabel, cartesianScale, radarScale, radarElementsFill, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis, setChartRef } = chartController();
 
   const scaleOptions = {
     [BigChartTypes.BAR]: cartesianScale,
@@ -19,9 +19,11 @@ export default function ChartView() {
     [BigChartTypes.PIE]: {},
     [BigChartTypes.DONUT]: {},
     [BigChartTypes.SCATTERED]: cartesianScale,
+    [BigChartTypes.RADAR]: radarScale,
   }
 
   const common = {
+    elements : (chartType === BigChartTypes.RADAR) ? radarElementsFill : null,
     indexAxis: indexAxis,
     scales : scaleOptions[chartType],
     plugins: {
@@ -41,6 +43,8 @@ export default function ChartView() {
     [BigChartTypes.PIE]: pieOptions,
     [BigChartTypes.DONUT]: donutOptions,
     [BigChartTypes.SCATTERED]: scatteredOptions,
+    [BigChartTypes.RADAR]: {},
+    [BigChartTypes.PORAR]: {},
   };
 
   const deepMerge = (target, source) => {

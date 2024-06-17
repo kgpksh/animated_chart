@@ -87,6 +87,47 @@ const chartController = create((set, get) => ({
     set({cartesianScale : scale})
   },
 
+  radarElementsFill : {
+    line : {
+      fill : true
+    }
+  },
+  changeRadarElementsFill(value) {
+    set({radarElementsFill : value})
+  },
+
+  radarScale : {
+    r : {
+      pointLabels : {
+        display : true,
+        color : 'grey',
+        font : {
+          size : 20,
+        }
+      },
+      ticks: {
+        display : true,
+        backdropColor : 'rgb(0,0,0,0)',
+        color: 'grey',
+        font : {
+          size : 10
+        }
+      },
+      angleLines : {
+        display : true,
+        color : 'lightgrey'
+      },
+      grid : {
+        display : true,
+        color : 'lightgrey'
+      }
+    }
+  },
+
+  changeRadarScale(scale) {
+    set({radarScale : scale})
+  },
+
   title: {
     display : false,
     text : 'New title',

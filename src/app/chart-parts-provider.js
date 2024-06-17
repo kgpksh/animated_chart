@@ -3,7 +3,9 @@ const bigChartTypes = {
     'LINE' : 'line',
     'PIE' : 'pie',
     'SCATTERED' : 'scatter',
-    'DONUT' : 'doughnut'
+    'DONUT' : 'doughnut',
+    'RADAR' : 'radar',
+    'PORAR' : 'polarArea'
 }
 Object.freeze(bigChartTypes)
 
