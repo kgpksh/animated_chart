@@ -1,16 +1,16 @@
 import chartController from "@/app/zustand_chart_controller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { isRadiant } from "@/lib/utils";
 import RadiantLineController from "./line_controller";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import RadiantDotController from "./dot_controller";
+import { BigChartTypes } from "@/app/chart-parts-provider";
 
 export default function RadiantAxis() {
     const {chartType, radarElementsFill, changeRadarElementsFill} = chartController()
     return (
         <>
-        {isRadiant(chartType) ? 
+        {chartType === BigChartTypes.RADAR ? 
         <>
             <div className="flex mb-3">
                 <Checkbox

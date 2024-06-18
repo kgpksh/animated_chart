@@ -63,6 +63,7 @@ export default function ChartControlPanel() {
         </div>
 
             <Accordion type="multiple" collapsible defaultValue={['axes']}>
+                {!(chartType === BigChartTypes.DONUT || chartType == BigChartTypes.PIE) ? 
                 <AccordionItem value='axes'>
                     <AccordionTrigger>Axes</AccordionTrigger>
                     <AccordionContent>
@@ -70,13 +71,15 @@ export default function ChartControlPanel() {
                         <RadiantAxis></RadiantAxis>
                     </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value='background'>
-                    <AccordionTrigger>Background</AccordionTrigger>
-                    <AccordionContent><BackgroundController/></AccordionContent>
-                </AccordionItem>
+                 : ''
+                }
                 <AccordionItem value='title'>
                     <AccordionTrigger>Title</AccordionTrigger>
                     <AccordionContent><TitleController/></AccordionContent>
+                </AccordionItem>
+                <AccordionItem value='background'>
+                    <AccordionTrigger>Background</AccordionTrigger>
+                    <AccordionContent><BackgroundController/></AccordionContent>
                 </AccordionItem>
             </Accordion>
             
