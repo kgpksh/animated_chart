@@ -10,3 +10,8 @@ const canStack = [BigChartTypes.BAR, BigChartTypes.LINE, BigChartTypes.SCATTERED
 export function isCartesian( chartType) {
   return canStack.includes(chartType)
 }
+
+const raidants = [BigChartTypes.RADAR, BigChartTypes.PORAR]
+export function isRadiant( chartType) {
+  return raidants.includes(chartType)
+}

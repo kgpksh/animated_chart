@@ -24,7 +24,7 @@ export default function ChartView() {
     [BigChartTypes.DONUT]: {},
     [BigChartTypes.SCATTERED]: cartesianScale,
     [BigChartTypes.RADAR]: radarScale,
-    [BigChartTypes.PORAR]: {}
+    [BigChartTypes.PORAR]: radarScale
   }
 
   const common = {

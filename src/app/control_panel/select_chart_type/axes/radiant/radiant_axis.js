@@ -4,27 +4,30 @@ import RadiantLineController from "./line_controller";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import RadiantDotController from "./dot_controller";
+import { isRadiant } from "@/lib/utils";
 import { BigChartTypes } from "@/app/chart-parts-provider";
 
 export default function RadiantAxis() {
     const {chartType, radarElementsFill, changeRadarElementsFill} = chartController()
     return (
         <>
-        {chartType === BigChartTypes.RADAR ? 
+        {isRadiant(chartType)? 
         <>
-            <div className="flex mb-3">
-                <Checkbox
-                        id={'fillRadar'}
-                        className='mr-2'
-                        checked={radarElementsFill.line.fill}
-                        onCheckedChange={(checked) => {
-                            const isFilled = { ...radarElementsFill }
-                            isFilled.line.fill = checked
-                            changeRadarElementsFill(isFilled)
-                        }}
-                />
-                <Label htmlFor={'fillRadar'} className='font-bold hover:cursor-pointer mr-2'>Fill inner lines</Label>
-            </div>
+            {chartType === BigChartTypes.RADAR? 
+                <div className="flex mb-3">
+                    <Checkbox
+                            id={'fillRadar'}
+                            className='mr-2'
+                            checked={radarElementsFill.line.fill}
+                            onCheckedChange={(checked) => {
+                                const isFilled = { ...radarElementsFill }
+                                isFilled.line.fill = checked
+                                changeRadarElementsFill(isFilled)
+                            }}
+                    />
+                    <Label htmlFor={'fillRadar'} className='font-bold hover:cursor-pointer mr-2'>Fill inner lines</Label>
+                </div> 
+            : ''}
 
             <div className="rounded-md border-2 p-3 mb-4">
                 <Tabs defaultValue="ticks">
