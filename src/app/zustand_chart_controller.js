@@ -125,11 +125,12 @@ const chartController = create((set, get) => ({
         }
       },
       ticks: {
+        stepSize : null,
         display : true,
         backdropColor : 'rgb(0,0,0,0)',
         color: 'grey',
         font : {
-          size : 10
+          size : null
         }
       },
       angleLines : {

@@ -27,6 +27,12 @@ export default function ChartView() {
     [BigChartTypes.PORAR]: radarScale
   }
 
+  if(chartType === BigChartTypes.RADAR) {
+    scaleOptions[chartType].r.pointLabels.display = true
+  } else if(chartType === BigChartTypes.PORAR) {
+    scaleOptions[chartType].r.pointLabels.display = false
+  }
+
   const common = {
     layout : {
       padding : 20

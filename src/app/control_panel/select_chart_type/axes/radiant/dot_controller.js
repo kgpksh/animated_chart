@@ -11,7 +11,9 @@ import "react-color-palette/css";
 export default function RadiantDotController({dot}) {
     const {radarScale, changeRadarScale} = chartController()
     const [color, setColor] = useColor(radarScale.r[dot].color);
-    const fontSizeRef = useRef()
+    const fontSizeRef = useRef(null)
+    const stepSizeRef = useRef(null)
+    
     return (
         <div className="flex flex-col mt-2 p-3 rounded-md border-2">
            {dot === 'ticks' ? <div className="flex">
@@ -55,7 +57,7 @@ export default function RadiantDotController({dot}) {
                             newDot.r[dot].font.size = fontSizeRef.current.value
                             changeRadarScale(newDot)
                         }}
-                        // defaultValue = {radarScale.r[dot].font.size}
+                        value={ radarScale.r[dot].font.size}
                         placeholder='Font size'
                         ref={fontSizeRef}
                         type='number'
@@ -63,6 +65,26 @@ export default function RadiantDotController({dot}) {
                     />
                 </div>
             </div>
+
+            {dot === 'ticks'?
+                <div className="flex flex-col mt-2 w-1/2 pr-2">
+                    <h5>Step size</h5>
+                    <Input
+                        className='ml-1 mt-2'
+                        onChange={() => {
+                            const newDot = { ...radarScale }
+                            newDot.r[dot].stepSize = stepSizeRef.current.value
+                            changeRadarScale(newDot)
+                        }}
+                        placeholder='Step size'
+                        ref={stepSizeRef}
+                        type='number'
+                        min='0'
+                    />
+                </div>
+            : ''
+            }
+            
         </div>
     )
 }

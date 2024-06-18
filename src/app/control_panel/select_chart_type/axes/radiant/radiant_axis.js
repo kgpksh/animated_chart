@@ -8,7 +8,7 @@ import { isRadiant } from "@/lib/utils";
 import { BigChartTypes } from "@/app/chart-parts-provider";
 
 export default function RadiantAxis() {
-    const {chartType, radarElementsFill, changeRadarElementsFill} = chartController()
+    const {chartType, radarElementsFill, changeRadarElementsFill, radarScale} = chartController()
     return (
         <>
         {isRadiant(chartType)? 
@@ -29,21 +29,29 @@ export default function RadiantAxis() {
                 </div> 
             : ''}
 
-            <div className="rounded-md border-2 p-3 mb-4">
-                <Tabs defaultValue="ticks">
-                    <TabsList className='grid w-full grid-cols-2 my-1'>
-                        <TabsTrigger value='ticks'>Ticks</TabsTrigger>
-                        <TabsTrigger value = 'pointLabels'>Point labels</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value='ticks'>
-                        <RadiantDotController dot='ticks'></RadiantDotController>
-                    </TabsContent>
+                {chartType === BigChartTypes.RADAR ?
+                <div className="rounded-md border-2 p-3 mb-4">
+                    <Tabs defaultValue="ticks">
+                        <TabsList className='grid w-full grid-cols-2 my-1'>
+                            <TabsTrigger value='ticks'>Ticks</TabsTrigger>
+                            <TabsTrigger value = 'pointLabels'>Point labels</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value='ticks'>
+                            <RadiantDotController dot='ticks'/>
+                        </TabsContent>
 
-                    <TabsContent value='pointLabels'>
-                        <RadiantDotController dot='pointLabels'></RadiantDotController>
-                    </TabsContent>
-                </Tabs>
-            </div>
+                        <TabsContent value='pointLabels'>
+                            <RadiantDotController dot='pointLabels'/>
+                        </TabsContent>
+                    </Tabs>
+                </div>
+                 : 
+                 <div className="mb-4">
+                    <RadiantDotController dot='ticks'/>
+                 </div>
+                
+                }
+            
             
             <div className="rounded-md border-2 p-3">
                 <Tabs defaultValue="angleLines">
