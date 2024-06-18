@@ -5,14 +5,18 @@ import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
 import { useRef, useEffect } from "react";
+import { isCartesian } from "@/lib/utils";
 
 ChartJS.register(...registerables);
 
 export default function ChartView() {
   const localChartRef = useRef(null);
   const { dataResource } = useDataFileStore();
-  const { key, changeKey, chartType, backgroundColor, title, useLabel, cartesianScale, radarScale, radarElementsFill, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis, setChartRef } = chartController();
+  const { key, changeKey, chartType, backgroundColor, title, useLabel, cartesianScale, radarScale, polar, radarElementsFill, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis, setChartRef } = chartController();
 
+  const isFlexibleLegend = () => {
+    return isCartesian(chartType) || chartType === BigChartTypes.RADAR
+  }
   const scaleOptions = {
     [BigChartTypes.BAR]: cartesianScale,
     [BigChartTypes.LINE]: cartesianScale,
@@ -20,6 +24,7 @@ export default function ChartView() {
     [BigChartTypes.DONUT]: {},
     [BigChartTypes.SCATTERED]: cartesianScale,
     [BigChartTypes.RADAR]: radarScale,
+    [BigChartTypes.PORAR]: {}
   }
 
   const common = {
@@ -34,7 +39,7 @@ export default function ChartView() {
         color: backgroundColor
       },
       legend: {
-        display : useLabel
+        display : (isCartesian(chartType) || (chartType === BigChartTypes.RADAR)) ? useLabel : true
       },
       title: title
     }
@@ -47,7 +52,7 @@ export default function ChartView() {
     [BigChartTypes.DONUT]: donutOptions,
     [BigChartTypes.SCATTERED]: scatteredOptions,
     [BigChartTypes.RADAR]: {},
-    [BigChartTypes.PORAR]: {},
+    [BigChartTypes.PORAR]: polar,
   };
 
   const deepMerge = (target, source) => {
@@ -86,7 +91,14 @@ export default function ChartView() {
     }
     const datasets = [];
     for (let i = 1; i < dataResource.length; i++) {
-      datasets.push({ label: useLabel ? dataResource[i][0] : null, data: useLabel ? dataResource[i].slice(1) : dataResource[i] });
+      datasets.push({
+        label: isFlexibleLegend() ?
+          (useLabel ? dataResource[i][0] : null) :
+          null, 
+        data: isFlexibleLegend() ?
+        (useLabel ? dataResource[i].slice(1) : dataResource[i]) :
+        dataResource[i]
+      });
     }
     return datasets;
   };
@@ -100,7 +112,9 @@ export default function ChartView() {
     }
 
     return {
-      labels: useLabel ? dataResource[0].slice(1) : dataResource[0],
+      labels: isFlexibleLegend() ?
+        (useLabel ? dataResource[0].slice(1) : dataResource[0]) :
+        dataResource[0],
       datasets: getDataSets()
     };
   }

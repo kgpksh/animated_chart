@@ -38,6 +38,15 @@ const chartController = create((set, get) => ({
     })
   },
 
+  polar: {
+    // borderWidth : 10,
+    //   borderColor : 'green',
+    // polarArea: {
+      
+    // }
+    
+  },
+
   cartesianScale : {
     x: {
       min : null,

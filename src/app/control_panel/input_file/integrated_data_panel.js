@@ -23,7 +23,7 @@ export default function IntegratedDataPanel() {
             <label 
               htmlFor={datasetLabel}
               className="text-sm text-gray-400 hover:cursor-pointer"
-            >Use the first column of each row as a label</label>
+            >Use the first column of each row as a legend on the X/Y axes type chart.</label>
           </div>
         </div> : ''}
       </div>
