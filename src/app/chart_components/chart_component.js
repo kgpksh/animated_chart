@@ -1,10 +1,10 @@
 "use client";
-import { Chart as ChartJS, elements, registerables } from "chart.js";
-import { Bar, Chart, Doughnut, Line, Pie, Scatter } from "react-chartjs-2";
+import { Chart as ChartJS, registerables } from "chart.js";
+import { Chart } from "react-chartjs-2";
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import { isCartesian } from "@/lib/utils";
 
 ChartJS.register(...registerables);
@@ -12,85 +12,79 @@ ChartJS.register(...registerables);
 export default function ChartView() {
   const localChartRef = useRef(null);
   const { dataResource } = useDataFileStore();
-  const { key, changeKey, chartType, backgroundColor, title, useLabel, cartesianScale, radarScale, polar, radarElementsFill, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions, indexAxis, setChartRef } = chartController();
-
-  const isFlexibleLegend = () => {
-    return isCartesian(chartType) || chartType === BigChartTypes.RADAR
-  }
-  const scaleOptions = {
-    [BigChartTypes.BAR]: cartesianScale,
-    [BigChartTypes.LINE]: cartesianScale,
-    [BigChartTypes.PIE]: {},
-    [BigChartTypes.DONUT]: {},
-    [BigChartTypes.SCATTERED]: cartesianScale,
-    [BigChartTypes.RADAR]: radarScale,
-    [BigChartTypes.PORAR]: radarScale
-  }
-
-  if(chartType === BigChartTypes.RADAR) {
-    scaleOptions[chartType].r.pointLabels.display = true
-  } else if(chartType === BigChartTypes.PORAR) {
-    scaleOptions[chartType].r.pointLabels.display = false
-  }
-
-  const common = {
-    layout : {
-      padding : 20
-    },
-    elements : (chartType === BigChartTypes.RADAR) ? radarElementsFill : null,
-    indexAxis: indexAxis,
-    scales : scaleOptions[chartType],
-    plugins: {
-      customCanvasBackgroundColor: {
-        color: backgroundColor
-      },
-      legend: {
-        display : (isCartesian(chartType) || (chartType === BigChartTypes.RADAR)) ? useLabel : true
-      },
-      title: title
-    }
-  };
-
-  const currentOptionType = {
-    [BigChartTypes.BAR]: barOptions,
-    [BigChartTypes.LINE]: lineOptions,
-    [BigChartTypes.PIE]: pieOptions,
-    [BigChartTypes.DONUT]: donutOptions,
-    [BigChartTypes.SCATTERED]: scatteredOptions,
-    [BigChartTypes.RADAR]: {},
-    [BigChartTypes.PORAR]: polar,
-  };
-
-  const deepMerge = (target, source) => {
-    const output = { ...target };
-    for (const key of Object.keys(source)) {
-      if (source[key] instanceof Object && key in target) {
-        output[key] = deepMerge(target[key], source[key]);
-      } else {
-        output[key] = source[key];
-      }
-    }
-    return output;
-  };
-
-  const allOptions = JSON.stringify({ common, barOptions, lineOptions, pieOptions, donutOptions, scatteredOptions });
+  const setChartRef  = chartController((state) => state.setChartRef);
+  const chartType = chartController((state) => state.chartType)
+  const backgroundColor = chartController((state) => state.backgroundColor)
+  const indexAxis = chartController((state) => state.indexAxis)
+  const cartesianScale = chartController((state) => state.cartesianScale)
+  const radarScale = chartController((state) => state.radarScale)
+  const radarElementsFill = chartController(state => state.radarElementsFill)
+  const title = chartController((state) => state.title)
+  const useLabel = chartController((state) => state.useLabel)
+  const animation = chartController((state) => state.animation)
 
   useEffect(() => {
-    changeKey();
     setChartRef(localChartRef);
-  }, [dataResource, chartType, allOptions, backgroundColor]);
+  }, []);
 
-  const plugin = {
-    id: 'customCanvasBackgroundColor',
-    beforeDraw: (chart) => {
-      const ctx = chart.ctx;
-      ctx.save();
-      ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = backgroundColor;
-      ctx.fillRect(0, 0, chart.width, chart.height);
-      ctx.restore();
-    }
+  const isFlexibleLegend = () => {
+    return isCartesian(chartType) || chartType === BigChartTypes.RADAR;
   };
+
+  const scaleOptions = () => {
+    const options = {
+      [BigChartTypes.BAR]: cartesianScale,
+      [BigChartTypes.LINE]: cartesianScale,
+      [BigChartTypes.PIE]: {},
+      [BigChartTypes.DONUT]: {},
+      [BigChartTypes.SCATTERED]: cartesianScale,
+      [BigChartTypes.RADAR]: radarScale,
+      [BigChartTypes.PORAR]: radarScale,
+    };
+
+    if (chartType === BigChartTypes.RADAR) {
+      options[chartType].r.pointLabels.display = true;
+    } else if (chartType === BigChartTypes.PORAR) {
+      options[chartType].r.pointLabels.display = false;
+    }
+
+    return options[chartType];
+  }
+
+const complete_option = {
+    layout: {
+      padding: 20,
+    },
+    animation: animation,
+    elements: chartType === BigChartTypes.RADAR ? radarElementsFill : null,
+    indexAxis: indexAxis,
+    scales: scaleOptions(),
+    plugins: {
+      colors : {
+        forceOverride: true
+      },
+      customCanvasBackgroundColor: {
+        color: backgroundColor,
+      },
+      legend: {
+        display: isCartesian(chartType) || chartType === BigChartTypes.RADAR ? useLabel : true,
+      },
+      title: title,
+    },
+  }
+
+const plugin = {
+  id: 'customCanvasBackgroundColor',
+  beforeDraw: (chart) => {
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
+  },
+  };
+
   const getDataSets = () => {
     if (!dataResource) {
       return [];
@@ -98,12 +92,8 @@ export default function ChartView() {
     const datasets = [];
     for (let i = 1; i < dataResource.length; i++) {
       datasets.push({
-        label: isFlexibleLegend() ?
-          (useLabel ? dataResource[i][0] : null) :
-          null, 
-        data: isFlexibleLegend() ?
-        (useLabel ? dataResource[i].slice(1) : dataResource[i]) :
-        dataResource[i]
+        label: isFlexibleLegend() ? (useLabel ? dataResource[i][0] : null) : null,
+        data: isFlexibleLegend() ? (useLabel ? dataResource[i].slice(1) : dataResource[i]) : dataResource[i],
       });
     }
     return datasets;
@@ -113,36 +103,25 @@ export default function ChartView() {
     if (!dataResource) {
       return {
         labels: [],
-        datasets: []
+        datasets: [],
       };
     }
 
     return {
-      labels: isFlexibleLegend() ?
-        (useLabel ? dataResource[0].slice(1) : dataResource[0]) :
-        dataResource[0],
-      datasets: getDataSets()
+      labels: isFlexibleLegend() ? (useLabel ? dataResource[0].slice(1) : dataResource[0]) : dataResource[0],
+      datasets: getDataSets(useLabel),
     };
-  }
-
-  const updatedOption = deepMerge(common, currentOptionType[chartType]);
-
-  const chartTypes = {
-    [BigChartTypes.BAR]: <Bar key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.LINE]: <Line key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.PIE]: <Pie key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.SCATTERED]: <Scatter key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />,
-    [BigChartTypes.DONUT]: <Doughnut key={key} ref={localChartRef} data={data()} options={updatedOption} plugins={[plugin]} />
   };
+  
+  console.log('변경')
 
   return (
     <Chart
-    ref={localChartRef}
-    type={chartType}
-    options={updatedOption}
-    data={data()}
-    plugins={[plugin]}
-    key={key}
+      ref={localChartRef}
+      type={chartType}
+      options={complete_option}
+      data={data()}
+      plugins={[plugin]}
     />
   );
 }

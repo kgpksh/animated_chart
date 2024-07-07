@@ -2,13 +2,6 @@ import { BigChartTypes } from "./chart-parts-provider";
 
 const { create } = require("zustand");
 
-const modelOptions = {
-  plugins: {
-    
-  }
-}
-Object.freeze(modelOptions)
-
 const chartController = create((set, get) => ({
   key : 0,
   changeKey() {
@@ -19,6 +12,50 @@ const chartController = create((set, get) => ({
   chartType : BigChartTypes.BAR,
   selectChartType(inputType) {
       set({chartType : inputType})
+  },
+
+  animation: undefined,
+  setAnimation : (dataResourceLength, totalDuration) => {
+    const delayBetweenPoints = totalDuration / dataResourceLength
+    let delayed = false
+    let isRecord = false
+    set({animation : {
+      duration: delayBetweenPoints,
+      
+      onComplete: function (ctx) {
+        isRecord = false
+        console.log('완료', delayed)
+        
+      },
+      onProgress : (ctx) => {
+        console.log(isRecord)        
+      },
+      x: {
+        delay: (context) => {
+          let delay = 0;
+          if (context.type === 'data' && context.mode === 'default' && !delayed) {
+            delay = context.dataIndex * delayBetweenPoints;
+          }
+          return delay;
+        },
+        type: 'number',
+        easing: 'linear',
+        from: (ctx) => ctx.index === 0 ? NaN : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['x'], true).x,
+      },
+      y: {
+        delay: (context) => {
+          let delay = 0;
+          if (context.type === 'data' && context.mode === 'default' && !delayed) {
+            delay = context.dataIndex * delayBetweenPoints;
+          }
+          return delay;
+        },
+        type: 'number',
+        easing: 'linear',
+        from: (ctx) => ctx.index === 0 ? NaN : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y,
+        // to: nextY
+      }     
+    }})
   },
 
   backgroundColor: '#FFFFFF',
@@ -37,16 +74,6 @@ const chartController = create((set, get) => ({
       return {useLabel : changedState}
     })
   },
-
-  polar: {
-    // borderWidth : 10,
-    //   borderColor : 'green',
-    // polarArea: {
-      
-    // }
-    
-  },
-
   cartesianScale : {
     x: {
       min : null,
@@ -161,29 +188,7 @@ const chartController = create((set, get) => ({
   },
   changeTitle(title){
     set({title : title})
-  },
-
-  barOptions: {...modelOptions},
-    setBarOptions(option) {
-      set({barOptions : option})
-    },
-    
-  lineOptions : {...modelOptions},
-  setLineOptions(option) {
-      set({lineOptions : option})
-    },
-  pieOptions : {...modelOptions},
-    setBarOptions(option) {
-      set({pieOptions : option})
-    },
-  scatteredOptions : {...modelOptions},
-    setBarOptions(option) {
-      set({scatteredOptions : option})
-    },
-  donutOptions : {...modelOptions},
-    setBarOptions(option) {
-      set({donutOptions : option})
-    },
+  }
 }))
 
 export default chartController

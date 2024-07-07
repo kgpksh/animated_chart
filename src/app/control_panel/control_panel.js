@@ -7,15 +7,11 @@ import { Button } from "@/components/ui/button";
 import chartController from "../zustand_chart_controller";
 
 export default function ControlPanel() {
-    const {chartRef, setBackgroundColor, changeKey} = chartController()
+    const {chartRef, setAnimation} = chartController()
     return (
         <div className="flex flex-col items-center w-96 border p-3">
             <Button onClick={() => {
-                const ctx = chartRef.current
-                setBackgroundColor('#FFFFCC')
-                changeKey();
-                ctx.reset()
-                ctx.update()
+                setAnimation(4, 1500)
             }}>Show
             </Button>
             <Tabs defaultValue="dataManagement" className="flex flex-col items-center w-96 h-[85vh] border p-3">
