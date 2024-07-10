@@ -14,48 +14,27 @@ const chartController = create((set, get) => ({
       set({chartType : inputType})
   },
 
-  animation: undefined,
-  setAnimation : (dataResourceLength, totalDuration) => {
-    const delayBetweenPoints = totalDuration / dataResourceLength
-    let delayed = false
-    let isRecord = false
-    set({animation : {
-      duration: delayBetweenPoints,
+  animation: {
+    onComplete: function (ctx) {
+      console.log('완료')
       
+    },
+    onProgress : (ctx) => {
+      console.log('프로그레스')        
+    }
+  },
+  setAnimation : (animation) => {
+    const changedAnimation = {
       onComplete: function (ctx) {
-        isRecord = false
-        console.log('완료', delayed)
+        console.log('완료')
         
       },
       onProgress : (ctx) => {
-        console.log(isRecord)        
+        console.log('프로그레스')        
       },
-      x: {
-        delay: (context) => {
-          let delay = 0;
-          if (context.type === 'data' && context.mode === 'default' && !delayed) {
-            delay = context.dataIndex * delayBetweenPoints;
-          }
-          return delay;
-        },
-        type: 'number',
-        easing: 'linear',
-        from: (ctx) => ctx.index === 0 ? NaN : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['x'], true).x,
-      },
-      y: {
-        delay: (context) => {
-          let delay = 0;
-          if (context.type === 'data' && context.mode === 'default' && !delayed) {
-            delay = context.dataIndex * delayBetweenPoints;
-          }
-          return delay;
-        },
-        type: 'number',
-        easing: 'linear',
-        from: (ctx) => ctx.index === 0 ? NaN : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y,
-        // to: nextY
-      }     
-    }})
+      ...animation
+    }
+    set({animation : changedAnimation})
   },
 
   backgroundColor: '#FFFFFF',
