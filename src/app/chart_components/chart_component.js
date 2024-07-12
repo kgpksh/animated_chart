@@ -6,8 +6,20 @@ import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
 import { useRef, useEffect, useMemo, useState } from "react";
 import { isCartesian } from "@/lib/utils";
+import barAnimations from "../control_panel/animations/bar";
+import lineAnimations from "../control_panel/animations/line";
 
 ChartJS.register(...registerables);
+
+const animations =  {
+  [BigChartTypes.BAR] : barAnimations,
+  [BigChartTypes.LINE] : lineAnimations,
+  [BigChartTypes.PIE] : {default : (duration) => console.log('파이')},
+  [BigChartTypes.SCATTERED] : {default : (duration) => console.log('스캐터드')},
+  [BigChartTypes.DONUT] : {default : (duration) => console.log('도넛')},
+  [BigChartTypes.RADAR] : {default : (duration) => console.log('라이다')},
+  [BigChartTypes.PORAR] : {default : (duration) => console.log('폴라')},
+}
 
 export default function ChartView() {
   const localChartRef = useRef(null);
@@ -21,7 +33,7 @@ export default function ChartView() {
   const radarElementsFill = chartController(state => state.radarElementsFill)
   const title = chartController((state) => state.title)
   const useLabel = chartController((state) => state.useLabel)
-  const animation = chartController((state) => state.animation)
+  const animationsOfChartType = chartController((state) => state.animationsOfChartType)
 
   useEffect(() => {
     setChartRef(localChartRef);
@@ -30,6 +42,19 @@ export default function ChartView() {
   const isFlexibleLegend = () => {
     return isCartesian(chartType) || chartType === BigChartTypes.RADAR;
   };
+
+  const animationConfig = animationsOfChartType[chartType]
+
+  const animation = {
+    onComplete: function (ctx) {
+      console.log('애니')
+      
+    },
+    onProgress : (ctx) => {
+      console.log('프로그레스')        
+    },
+    ...animations[chartType][animationConfig.name](animationConfig.duration)
+  }
 
   const scaleOptions = () => {
     const options = {
@@ -113,7 +138,7 @@ const plugin = {
     };
   };
   
-  console.log('변경')
+  console.log(complete_option)
 
   return (
     <Chart

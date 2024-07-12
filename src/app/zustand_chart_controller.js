@@ -1,12 +1,22 @@
+"use client"
+
 import { BigChartTypes } from "./chart-parts-provider";
+import barAnimations from "./control_panel/animations/bar";
+import lineAnimations from "./control_panel/animations/line";
 
 const { create } = require("zustand");
 
+const animations =  {
+  [BigChartTypes.BAR] : barAnimations,
+  [BigChartTypes.LINE] : lineAnimations,
+  [BigChartTypes.PIE] : {},
+  [BigChartTypes.SCATTERED] : {},
+  [BigChartTypes.DONUT] : {},
+  [BigChartTypes.RADAR] : {},
+  [BigChartTypes.PORAR] : {},
+}
+
 const chartController = create((set, get) => ({
-  key : 0,
-  changeKey() {
-    set({key : get().key === 0 ? 1 : 0})
-  },
   chartRef: null,
   setChartRef: (ref) => set({ chartRef: ref }),
   chartType : BigChartTypes.BAR,
@@ -14,29 +24,23 @@ const chartController = create((set, get) => ({
       set({chartType : inputType})
   },
 
-  animation: {
-    onComplete: function (ctx) {
-      console.log('완료')
-      
-    },
-    onProgress : (ctx) => {
-      console.log('프로그레스')        
-    }
-  },
-  setAnimation : (animation) => {
-    const changedAnimation = {
-      onComplete: function (ctx) {
-        console.log('완료')
-        
-      },
-      onProgress : (ctx) => {
-        console.log('프로그레스')        
-      },
-      ...animation
-    }
-    set({animation : changedAnimation})
-  },
+  animationsOfChartType : {
+    [BigChartTypes.BAR] : {name : 'default', duration : 1000},
+    [BigChartTypes.LINE] : {name : 'default', duration : 1000},
+    [BigChartTypes.PIE] : {name : 'default', duration : 1000},
+    [BigChartTypes.SCATTERED] : {name : 'default', duration : 1000},
+    [BigChartTypes.DONUT] : {name : 'default', duration : 1000},
+    [BigChartTypes.RADAR] : {name : 'default', duration : 1000},
+    [BigChartTypes.PORAR] : {name : 'default', duration : 1000},
 
+},
+
+  setAniType (chartType, aniType, duration) {
+    const animationsOfChartType = get().animationsOfChartType
+    animationsOfChartType[chartType].name = aniType
+    animationsOfChartType[chartType].duration = duration
+    set({animationsOfChartType : {...animationsOfChartType}})
+  },
   backgroundColor: '#FFFFFF',
   setBackgroundColor(color) {
       set({backgroundColor : color})

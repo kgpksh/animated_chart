@@ -13,10 +13,9 @@ export default function ControlPanel() {
     return (
         <div className="flex flex-col items-center w-96 border p-3">
             <Button onClick={() => {
-                console.log("체인지")
-                const lineAnimation = lineAnimations
-                const progressive = lineAnimation.progressive
-                setAnimation(progressive(1500/4))
+                const ctx = chartRef.current
+                ctx.reset()
+                ctx.update()
             }}>ChangeAnimation
             </Button>
             <Tabs defaultValue="dataManagement" className="flex flex-col items-center w-96 h-[85vh] border p-3">

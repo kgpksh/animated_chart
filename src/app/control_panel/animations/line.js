@@ -1,22 +1,24 @@
 const lineAnimations = {
-    default : (delayBetweenPoints) => {
-      return {
-        duration: delayBetweenPoints,
-        y : {
-          type: 'number',
-          easing: 'linear',
-          from : (ctx) => 100
-        }
+  default : (duration) => {
+    return {
+      duration: duration,
+      // delay: undefined
+      y : {
+        type: 'number',
+        easing: 'linear',
+        from : 500,
+        // to : (ctx) => ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index].getProps(['y'], true).y,
       }
-  },
-    progressive : (delayBetweenPoints) => {
+    }
+},
+    progressive : (duration) => {
       return {
-          duration: delayBetweenPoints,
+          duration: duration,
           x: {
             delay: (context) => {
               let delay = 0;
               if (context.type === 'data' && context.mode === 'default') {
-                delay = context.dataIndex * delayBetweenPoints;
+                delay = context.dataIndex * duration;
               }
               return delay;
             },
@@ -28,7 +30,7 @@ const lineAnimations = {
             delay: (context) => {
               let delay = 0;
               if (context.type === 'data' && context.mode === 'default') {
-                delay = context.dataIndex * delayBetweenPoints;
+                delay = context.dataIndex * duration;
               }
               return delay;
             },

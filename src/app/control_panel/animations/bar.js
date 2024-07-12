@@ -1,21 +1,13 @@
 const barAnimations = {
-    default : (delayBetweenPoints) => {
+    default : (duration) => {
         return {
-          duration: delayBetweenPoints,
+          duration: duration,
+          // delay: undefined
           y : {
             type: 'number',
             easing: 'linear',
-            from : (ctx) => 100
-          }
-        }
-    },
-    another : (delayBetweenPoints) => {
-        return {
-          duration: delayBetweenPoints,
-          y : {
-            type: 'number',
-            easing: 'linear',
-            from : (ctx) => 0
+            from : 500,
+            // to : (ctx) => ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index].getProps(['y'], true).y,
           }
         }
     },
