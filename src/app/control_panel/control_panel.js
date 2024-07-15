@@ -10,9 +10,11 @@ import lineAnimations from "./animations/line";
 
 export default function ControlPanel() {
     const {chartRef, setAnimation} = chartController()
+    const startRecord = chartController((state) => state.startRecord)
     return (
         <div className="flex flex-col items-center w-96 border p-3">
             <Button onClick={() => {
+                startRecord()
                 const ctx = chartRef.current
                 ctx.reset()
                 ctx.update()

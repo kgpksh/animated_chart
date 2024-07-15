@@ -34,6 +34,7 @@ export default function ChartView() {
   const title = chartController((state) => state.title)
   const useLabel = chartController((state) => state.useLabel)
   const animationsOfChartType = chartController((state) => state.animationsOfChartType)
+  const onComplete = chartController((state) => state.onComplete)
 
   useEffect(() => {
     setChartRef(localChartRef);
@@ -46,10 +47,7 @@ export default function ChartView() {
   const animationConfig = animationsOfChartType[chartType]
 
   const animation = {
-    onComplete: function (ctx) {
-      console.log('애니')
-      
-    },
+    onComplete: onComplete,
     onProgress : (ctx) => {
       console.log('프로그레스')        
     },

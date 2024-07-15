@@ -16,12 +16,39 @@ const animations =  {
   [BigChartTypes.PORAR] : {},
 }
 
+let mediaRecorder = null
+
 const chartController = create((set, get) => ({
   chartRef: null,
   setChartRef: (ref) => set({ chartRef: ref }),
   chartType : BigChartTypes.BAR,
   selectChartType(inputType) {
       set({chartType : inputType})
+  },
+
+  onComplete: (ctx) => {
+    mediaRecorder?.stop()
+    mediaRecorder = null
+  },
+
+  videoUrl : null,
+
+  startRecord: () => {
+    mediaRecorder = new MediaRecorder(get().chartRef.current.ctx.canvas.captureStream())
+    const arrVideoData = []
+
+    mediaRecorder.ondataavailable = (evt) => {
+      arrVideoData.push(evt.data)
+    }
+
+    mediaRecorder.onstop = (evt) => {
+      const blob = new Blob(arrVideoData, { type: 'video/mp4' })
+      const blobURL = window.URL.createObjectURL(blob)
+      set({videoUrl : blobURL})
+      console.log("녹화 멈춤")
+    }
+
+    mediaRecorder.start()
   },
 
   animationsOfChartType : {
