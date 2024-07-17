@@ -34,7 +34,9 @@ const chartController = create((set, get) => ({
   videoUrl : null,
 
   startRecord: () => {
-    mediaRecorder = new MediaRecorder(get().chartRef.current.ctx.canvas.captureStream())
+    const canvas = get().chartRef.current.ctx.canvas;
+    const options = { mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 5 * 1024 * 1024 };
+    mediaRecorder = new MediaRecorder(canvas.captureStream(), options);
     const arrVideoData = []
 
     mediaRecorder.ondataavailable = (evt) => {
@@ -45,7 +47,6 @@ const chartController = create((set, get) => ({
       const blob = new Blob(arrVideoData, { type: 'video/mp4' })
       const blobURL = window.URL.createObjectURL(blob)
       set({videoUrl : blobURL})
-      console.log("녹화 멈춤")
     }
 
     mediaRecorder.start()

@@ -4,26 +4,16 @@ import { Chart } from "react-chartjs-2";
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
-import { useRef, useEffect, useMemo, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { isCartesian } from "@/lib/utils";
 import barAnimations from "../control_panel/animations/bar";
 import lineAnimations from "../control_panel/animations/line";
 
 ChartJS.register(...registerables);
 
-const animations =  {
-  [BigChartTypes.BAR] : barAnimations,
-  [BigChartTypes.LINE] : lineAnimations,
-  [BigChartTypes.PIE] : {default : (duration) => console.log('파이')},
-  [BigChartTypes.SCATTERED] : {default : (duration) => console.log('스캐터드')},
-  [BigChartTypes.DONUT] : {default : (duration) => console.log('도넛')},
-  [BigChartTypes.RADAR] : {default : (duration) => console.log('라이다')},
-  [BigChartTypes.PORAR] : {default : (duration) => console.log('폴라')},
-}
-
 export default function ChartView() {
   const localChartRef = useRef(null);
-  const { dataResource } = useDataFileStore();
+  const dataResource = useDataFileStore((state) => state.dataResource);
   const setChartRef  = chartController((state) => state.setChartRef);
   const chartType = chartController((state) => state.chartType)
   const backgroundColor = chartController((state) => state.backgroundColor)
@@ -36,21 +26,48 @@ export default function ChartView() {
   const animationsOfChartType = chartController((state) => state.animationsOfChartType)
   const onComplete = chartController((state) => state.onComplete)
 
+  const[key, setKey] = useState(0)
   useEffect(() => {
     setChartRef(localChartRef);
   }, []);
+  
+  useEffect(() => {
+    setKey(key === 0 ? 1 : 0)
+  }, [backgroundColor]);
 
   const isFlexibleLegend = () => {
     return isCartesian(chartType) || chartType === BigChartTypes.RADAR;
   };
 
+  const animations =  {
+    [BigChartTypes.BAR] : barAnimations,
+    [BigChartTypes.LINE] : lineAnimations,
+    [BigChartTypes.PIE] : {default : (duration) => 
+      {console.log('파이')
+        return undefined
+      }},
+    [BigChartTypes.SCATTERED] : {default : (duration) => {
+      console.log('스캐터드')
+      return undefined
+    }},
+    [BigChartTypes.DONUT] : {default : (duration) => {
+      console.log('도넛')
+      return undefined
+    }},
+    [BigChartTypes.RADAR] : {default : (duration) => {
+      console.log('라이다')
+      return undefined
+    }},
+    [BigChartTypes.PORAR] : {default : (duration) => {
+      console.log('폴라')
+      return undefined
+    }},
+  }
+
   const animationConfig = animationsOfChartType[chartType]
 
   const animation = {
     onComplete: onComplete,
-    onProgress : (ctx) => {
-      console.log('프로그레스')        
-    },
     ...animations[chartType][animationConfig.name](animationConfig.duration)
   }
 
@@ -74,39 +91,39 @@ export default function ChartView() {
     return options[chartType];
   }
 
-const complete_option = {
-    layout: {
-      padding: 20,
-    },
-    animation: animation,
-    elements: chartType === BigChartTypes.RADAR ? radarElementsFill : null,
-    indexAxis: indexAxis,
-    scales: scaleOptions(),
-    plugins: {
-      colors : {
-        forceOverride: true
+  const complete_option = {
+      layout: {
+        padding: 20,
       },
-      customCanvasBackgroundColor: {
-        color: backgroundColor,
+      animation: animation,
+      elements: chartType === BigChartTypes.RADAR ? radarElementsFill : null,
+      indexAxis: indexAxis,
+      scales: scaleOptions(),
+      plugins: {
+        colors : {
+          forceOverride: true
+        },
+        customCanvasBackgroundColor: {
+          color: backgroundColor,
+        },
+        legend: {
+          display: isCartesian(chartType) || chartType === BigChartTypes.RADAR ? useLabel : true,
+        },
+        title: title,
       },
-      legend: {
-        display: isCartesian(chartType) || chartType === BigChartTypes.RADAR ? useLabel : true,
-      },
-      title: title,
-    },
-  }
+    }
 
-const plugin = {
-  id: 'customCanvasBackgroundColor',
-  beforeDraw: (chart) => {
-    const ctx = chart.ctx;
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-over';
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, chart.width, chart.height);
-    ctx.restore();
-  },
-  };
+  const plugin = {
+    id: 'customCanvasBackgroundColor',
+    beforeDraw: (chart) => {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      },
+    };
 
   const getDataSets = () => {
     if (!dataResource) {
@@ -130,7 +147,7 @@ const plugin = {
       };
     }
 
-    return {
+  return {
       labels: isFlexibleLegend() ? (useLabel ? dataResource[0].slice(1) : dataResource[0]) : dataResource[0],
       datasets: getDataSets(useLabel),
     };
@@ -140,6 +157,7 @@ const plugin = {
 
   return (
     <Chart
+      key={key}
       ref={localChartRef}
       type={chartType}
       options={complete_option}
