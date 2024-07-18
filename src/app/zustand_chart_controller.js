@@ -1,20 +1,7 @@
 "use client"
 
 import { BigChartTypes } from "./chart-parts-provider";
-import barAnimations from "./control_panel/animations/bar";
-import lineAnimations from "./control_panel/animations/line";
-
 const { create } = require("zustand");
-
-const animations =  {
-  [BigChartTypes.BAR] : barAnimations,
-  [BigChartTypes.LINE] : lineAnimations,
-  [BigChartTypes.PIE] : {},
-  [BigChartTypes.SCATTERED] : {},
-  [BigChartTypes.DONUT] : {},
-  [BigChartTypes.RADAR] : {},
-  [BigChartTypes.PORAR] : {},
-}
 
 let mediaRecorder = null
 
@@ -67,9 +54,14 @@ const chartController = create((set, get) => ({
     [BigChartTypes.PORAR] : {name : 'default', duration : 1000},
 
 },
+  setDuration(duration){
+    const animationsOfChartType = {...get().animationsOfChartType}
+    animationsOfChartType[get().chartType].duration = duration
+    set({animationsOfChartType : {...animationsOfChartType}})
+  },
 
   setAniType (chartType, aniType, duration) {
-    const animationsOfChartType = get().animationsOfChartType
+    const animationsOfChartType = {...get().animationsOfChartType}
     animationsOfChartType[chartType].name = aniType
     animationsOfChartType[chartType].duration = duration
     set({animationsOfChartType : {...animationsOfChartType}})

@@ -6,13 +6,7 @@ import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
 import { useRef, useEffect, useState } from "react";
 import { isCartesian } from "@/lib/utils";
-import barAnimations from "../control_panel/animations/bar";
-import lineAnimations from "../control_panel/animations/line";
-import scatteredAnimations from "../control_panel/animations/scattered";
-import pieAnimations from "../control_panel/animations/pie";
-import donutAnimations from "../control_panel/animations/donut";
-import radarAnimations from "../control_panel/animations/radar";
-import polarAnimations from "../control_panel/animations/polar";
+import animations from "../control_panel/animations/animations";
 
 ChartJS.register(...registerables);
 
@@ -46,17 +40,6 @@ export default function ChartView() {
   };
 
   const animationType = 'number'
-
-  const animations =  {
-    [BigChartTypes.BAR] : barAnimations,
-    [BigChartTypes.LINE] : lineAnimations,
-    [BigChartTypes.SCATTERED] : scatteredAnimations,
-    [BigChartTypes.PIE] : pieAnimations,
-    [BigChartTypes.DONUT] : donutAnimations,
-    [BigChartTypes.RADAR] : radarAnimations,
-    [BigChartTypes.PORAR] : polarAnimations,
-  }
-
   const animationConfig = animationsOfChartType[chartType]
 
   const animation = {
