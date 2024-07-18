@@ -1,16 +1,16 @@
 const barAnimations = {
-    default : (duration) => {
-        return {
-          duration: duration,
-          // delay: undefined
-          y : {
-            type: 'number',
-            easing: 'linear',
-            from : 500,
-            // to : (ctx) => ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index].getProps(['y'], true).y,
-          }
+    default : (duration, type, easing, indexAxis = 'y') => {
+
+      const axis = indexAxis === 'y' ? 'x' : 'y'
+      return {
+        duration: duration,
+        [axis] : {
+          type: type,
+          easing: easing,
+          from : (ctx) => indexAxis === 'x' ? ctx.chart.height : 0
         }
-    },
+      }
+  },
 
 }
 

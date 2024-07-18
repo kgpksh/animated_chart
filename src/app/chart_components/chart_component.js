@@ -8,6 +8,11 @@ import { useRef, useEffect, useState } from "react";
 import { isCartesian } from "@/lib/utils";
 import barAnimations from "../control_panel/animations/bar";
 import lineAnimations from "../control_panel/animations/line";
+import scatteredAnimations from "../control_panel/animations/scattered";
+import pieAnimations from "../control_panel/animations/pie";
+import donutAnimations from "../control_panel/animations/donut";
+import radarAnimations from "../control_panel/animations/radar";
+import polarAnimations from "../control_panel/animations/polar";
 
 ChartJS.register(...registerables);
 
@@ -25,6 +30,7 @@ export default function ChartView() {
   const useLabel = chartController((state) => state.useLabel)
   const animationsOfChartType = chartController((state) => state.animationsOfChartType)
   const onComplete = chartController((state) => state.onComplete)
+  const easing = chartController((state) => state.easing)
 
   const[key, setKey] = useState(0)
   useEffect(() => {
@@ -39,36 +45,23 @@ export default function ChartView() {
     return isCartesian(chartType) || chartType === BigChartTypes.RADAR;
   };
 
+  const animationType = 'number'
+
   const animations =  {
     [BigChartTypes.BAR] : barAnimations,
     [BigChartTypes.LINE] : lineAnimations,
-    [BigChartTypes.PIE] : {default : (duration) => 
-      {console.log('파이')
-        return undefined
-      }},
-    [BigChartTypes.SCATTERED] : {default : (duration) => {
-      console.log('스캐터드')
-      return undefined
-    }},
-    [BigChartTypes.DONUT] : {default : (duration) => {
-      console.log('도넛')
-      return undefined
-    }},
-    [BigChartTypes.RADAR] : {default : (duration) => {
-      console.log('라이다')
-      return undefined
-    }},
-    [BigChartTypes.PORAR] : {default : (duration) => {
-      console.log('폴라')
-      return undefined
-    }},
+    [BigChartTypes.SCATTERED] : scatteredAnimations,
+    [BigChartTypes.PIE] : pieAnimations,
+    [BigChartTypes.DONUT] : donutAnimations,
+    [BigChartTypes.RADAR] : radarAnimations,
+    [BigChartTypes.PORAR] : polarAnimations,
   }
 
   const animationConfig = animationsOfChartType[chartType]
 
   const animation = {
     onComplete: onComplete,
-    ...animations[chartType][animationConfig.name](animationConfig.duration)
+    ...animations[chartType][animationConfig.name](animationConfig.duration, animationType, easing, indexAxis)
   }
 
   const scaleOptions = () => {

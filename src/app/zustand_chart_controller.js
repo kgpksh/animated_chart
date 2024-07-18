@@ -52,6 +52,11 @@ const chartController = create((set, get) => ({
     mediaRecorder.start()
   },
 
+  easing : 'linear',
+  setEasing(type) {
+    set({easing : type})
+  },
+
   animationsOfChartType : {
     [BigChartTypes.BAR] : {name : 'default', duration : 1000},
     [BigChartTypes.LINE] : {name : 'default', duration : 1000},
