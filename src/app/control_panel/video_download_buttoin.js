@@ -4,8 +4,7 @@ import chartController from "../zustand_chart_controller"
 
 export default function VideoDownloadButton() {
     const videoUrl = chartController((state) => state.videoUrl)
-    const url = videoUrl ? videoUrl : ''
-
+    
     const handleDownload = () => {
       if (videoUrl) {
         const a = document.createElement('a')

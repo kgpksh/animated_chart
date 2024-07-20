@@ -14,13 +14,21 @@ const chartController = create((set, get) => ({
   },
 
   onComplete: (ctx) => {
-    mediaRecorder?.stop()
-    mediaRecorder = null
+    if(mediaRecorder === null) {
+      return
+    }
+
+    setTimeout(() => {
+      mediaRecorder?.requestData()
+      mediaRecorder?.stop()
+      mediaRecorder = null
+    }, 1000);
   },
 
   videoUrl : null,
 
   startRecord: () => {
+    set({videoUrl : null})
     const canvas = get().chartRef.current.ctx.canvas;
     const options = { mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 5 * 1024 * 1024 };
     mediaRecorder = new MediaRecorder(canvas.captureStream(), options);
