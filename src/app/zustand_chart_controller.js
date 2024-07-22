@@ -13,6 +13,9 @@ const chartController = create((set, get) => ({
       set({chartType : inputType})
   },
 
+  progress: 0,
+  setProgress : (progress) => set({progress : progress}),
+
   onComplete: (ctx) => {
     if(mediaRecorder === null) {
       return
@@ -25,9 +28,12 @@ const chartController = create((set, get) => ({
     }, 1000);
   },
 
+  isRecording : false,
+
   videoUrl : null,
 
   startRecord: () => {
+    set({isRecording : true})
     set({videoUrl : null})
     const canvas = get().chartRef.current.ctx.canvas;
     const options = { mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 5 * 1024 * 1024 };
@@ -42,6 +48,7 @@ const chartController = create((set, get) => ({
       const blob = new Blob(arrVideoData, { type: 'video/mp4' })
       const blobURL = window.URL.createObjectURL(blob)
       set({videoUrl : blobURL})
+      set({isRecording : false})
     }
 
     mediaRecorder.start()

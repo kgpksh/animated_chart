@@ -7,6 +7,7 @@ import { BigChartTypes } from "../chart-parts-provider";
 import { useRef, useEffect, useState } from "react";
 import { isCartesian } from "@/lib/utils";
 import animations from "../control_panel/animations/animations";
+import RecordingView from "./recording_view";
 
 ChartJS.register(...registerables);
 
@@ -25,8 +26,11 @@ export default function ChartView() {
   const animationsOfChartType = chartController((state) => state.animationsOfChartType)
   const onComplete = chartController((state) => state.onComplete)
   const easing = chartController((state) => state.easing)
+  const setProgress = chartController((state) => state.setProgress)
+  // const isRecording = chartController((state) => state.isRecording)
 
-  const[key, setKey] = useState(0)
+  const [key, setKey] = useState(0)
+
   useEffect(() => {
     setChartRef(localChartRef);
   }, []);
@@ -44,6 +48,10 @@ export default function ChartView() {
 
   const animation = {
     onComplete: onComplete,
+    onProgress: (ctx) => {
+      const progress = (ctx.currentStep / ctx.numSteps) * 100
+      setProgress(progress)
+    },
     ...animations[chartType][animationConfig.name](animationConfig.duration, animationType, easing, indexAxis)
   }
 
@@ -128,17 +136,19 @@ export default function ChartView() {
       datasets: getDataSets(useLabel),
     };
   };
-  
-  console.log(complete_option)
 
   return (
-    <Chart
-      key={key}
-      ref={localChartRef}
-      type={chartType}
-      options={complete_option}
-      data={data()}
-      plugins={[plugin]}
-    />
+    <div className="relative w-full h-full flex items-center justify-center">
+     
+        <RecordingView/>
+        <Chart
+          key={key}
+          ref={localChartRef}
+          type={chartType}
+          options={complete_option}
+          data={data()}
+          plugins={[plugin]}
+        />
+    </div>
   );
 }

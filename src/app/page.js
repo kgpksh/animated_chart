@@ -1,8 +1,5 @@
-// "use client"
 import ChartView from "./chart_components/chart_component";
 import ControlPanel from "./control_panel/control_panel";
-import IntegratedDataPanel from "./control_panel/input_file/integrated_data_panel";
-import VideoDownloadButton from "./control_panel/video_download_buttoin";
 
 export default function Home() {
   return (
@@ -12,7 +9,6 @@ export default function Home() {
         
       </div>
       <div className='h-full w-1/5'>
-        <VideoDownloadButton></VideoDownloadButton>
         <ControlPanel/>
       </div>
     </div>
