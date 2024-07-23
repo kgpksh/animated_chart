@@ -27,7 +27,6 @@ export default function ChartView() {
   const onComplete = chartController((state) => state.onComplete)
   const easing = chartController((state) => state.easing)
   const setProgress = chartController((state) => state.setProgress)
-  // const isRecording = chartController((state) => state.isRecording)
 
   const [key, setKey] = useState(0)
 

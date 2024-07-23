@@ -11,7 +11,34 @@ const lineAnimations = {
       }
     }
 },
-  progressive : (duration) => {
+from_start : (duration, type, easing, indexAxis = 'y') => {
+  const axis = indexAxis === 'y' ? 'x' : 'y'
+  return {
+    
+    [indexAxis] : {
+      duration : duration,
+      type : type,
+      easing : easing,
+      from : (ctx) => 0
+    },
+    [axis] : {
+      duration : 0,
+      type : type
+    }
+  }
+},
+from_start_growing : (duration, type, easing, indexAxis = 'y') => {
+  return {
+    
+    [indexAxis] : {
+      duration : duration,
+      type : type,
+      easing : easing,
+      from : (ctx) => 0
+    }
+  }
+},
+  progressive : (duration, type, easing, indexAxis = 'y') => {
     return {
         duration: duration,
         x: {

@@ -9,9 +9,9 @@ import { Label } from "@/components/ui/label";
 import animations from "./animations";
 
 export default function AnimationControlPanel() {
-    const durationRef = useRef(1500)
     const chartType = chartController((state) => state.chartType)
     const animationsOfChartType = chartController((state) => state.animationsOfChartType)
+    const durationRef = useRef(animationsOfChartType[chartType].duration / 1000)
     const setAniType = chartController((state) => state.setAniType)
     const setDuration = chartController((state) => state.setDuration)
 
@@ -24,15 +24,15 @@ export default function AnimationControlPanel() {
                 <div className="flex w-full">
                     <Input
                         id="duration"
-                        placeholder="Animation Duration"
+                        placeholder="Animation duration"
                         ref={durationRef}
                         type="number"
-                        defaultValue={1500}
+                        defaultValue={animationsOfChartType[chartType].duration / 1000}
                         className="w-3/5"
                     />
                     <Button
                         className="w-2/5 ml-2"
-                        onClick={() => setDuration(durationRef.current.value)}
+                        onClick={() => setDuration((durationRef.current.value) * 1000)}
                     >Apply duration</Button>
                 </div>
             </div>
@@ -46,10 +46,10 @@ export default function AnimationControlPanel() {
                             key={animation}
                             className="mt-1"
                             onClick={() => {
-                                setAniType(chartType, animation, durationRef.current.value)
+                                setAniType(chartType, animation, (durationRef.current.value) * 1000)
                             }}
                         >
-                            {animation}
+                            {animation.replace(/_/g, ' ')}
                         </Button>
                     ))}
                 </div>

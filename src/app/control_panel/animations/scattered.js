@@ -11,6 +11,34 @@ const scatteredAnimations = {
           }
         }
     },
+    from_start_growing : (duration, type, easing, indexAxis = 'y') => {
+      return {
+        
+        [indexAxis] : {
+          duration : duration,
+          type : type,
+          easing : easing,
+          from : (ctx) => 0
+        }
+      }
+    },
+    
+    from_start : (duration, type, easing, indexAxis = 'y') => {
+      const axis = indexAxis === 'y' ? 'x' : 'y'
+      return {
+        
+        [indexAxis] : {
+          duration : duration,
+          type : type,
+          easing : easing,
+          from : (ctx) => 0
+        },
+        [axis] : {
+          duration : 0,
+          type : type
+        }
+      }
+    },
 
 }
 

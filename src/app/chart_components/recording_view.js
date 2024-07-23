@@ -6,16 +6,6 @@ import chartController from "../zustand_chart_controller";
 export default function RecordingView() {
     const isRecording = chartController((state) => state.isRecording)
     const progress = chartController((state) => state.progress)
-    // const setProgress = chartController((state) => state.setProgress)
-    
-
-    // useEffect(() => {
-    //     if (isRecording) {
-    //       setProgress(0)
-    //     }
-    //   }, [isRecording, setProgress]);
-
-      console.log(progress)
     return (
         <>
             {isRecording && (
