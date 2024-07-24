@@ -42,18 +42,6 @@ export default function ChartView() {
     return isCartesian(chartType) || chartType === BigChartTypes.RADAR;
   };
 
-  const animationType = 'number'
-  const animationConfig = animationsOfChartType[chartType]
-
-  const animation = {
-    onComplete: onComplete,
-    onProgress: (ctx) => {
-      const progress = (ctx.currentStep / ctx.numSteps) * 100
-      setProgress(progress)
-    },
-    ...animations[chartType][animationConfig.name](animationConfig.duration, animationType, easing, indexAxis)
-  }
-
   const scaleOptions = () => {
     const options = {
       [BigChartTypes.BAR]: cartesianScale,
@@ -73,28 +61,6 @@ export default function ChartView() {
 
     return options[chartType];
   }
-
-  const complete_option = {
-      layout: {
-        padding: 20,
-      },
-      animation: animation,
-      elements: chartType === BigChartTypes.RADAR ? radarElementsFill : null,
-      indexAxis: indexAxis,
-      scales: scaleOptions(),
-      plugins: {
-        colors : {
-          forceOverride: true
-        },
-        customCanvasBackgroundColor: {
-          color: backgroundColor,
-        },
-        legend: {
-          display: isCartesian(chartType) || chartType === BigChartTypes.RADAR ? useLabel : true,
-        },
-        title: title,
-      },
-    }
 
   const plugin = {
     id: 'customCanvasBackgroundColor',
@@ -136,6 +102,42 @@ export default function ChartView() {
     };
   };
 
+  const completeData = data()
+
+  const animationType = 'number'
+  const animationConfig = animationsOfChartType[chartType]
+
+  const animation = {
+    onComplete: onComplete,
+    onProgress: (ctx) => {
+      const progress = (ctx.currentStep / ctx.numSteps) * 100
+      setProgress(progress)
+    },
+    ...animations[chartType][animationConfig.name](animationConfig.duration, animationType, easing, indexAxis, completeData.datasets.length)
+  }
+
+
+  const complete_option = {
+    layout: {
+      padding: 20,
+    },
+    animation: animation,
+    elements: chartType === BigChartTypes.RADAR ? radarElementsFill : null,
+    indexAxis: indexAxis,
+    scales: scaleOptions(),
+    plugins: {
+      colors : {
+        forceOverride: true
+      },
+      customCanvasBackgroundColor: {
+        color: backgroundColor,
+      },
+      legend: {
+        display: isCartesian(chartType) || chartType === BigChartTypes.RADAR ? useLabel : true,
+      },
+      title: title,
+    },
+  }
   return (
     <div className="relative w-full h-full flex items-center justify-center">
      
@@ -145,7 +147,7 @@ export default function ChartView() {
           ref={localChartRef}
           type={chartType}
           options={complete_option}
-          data={data()}
+          data={completeData}
           plugins={[plugin]}
         />
     </div>

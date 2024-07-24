@@ -14,7 +14,6 @@ const lineAnimations = {
 from_start : (duration, type, easing, indexAxis = 'y') => {
   const axis = indexAxis === 'y' ? 'x' : 'y'
   return {
-    
     [indexAxis] : {
       duration : duration,
       type : type,
@@ -29,43 +28,12 @@ from_start : (duration, type, easing, indexAxis = 'y') => {
 },
 from_start_growing : (duration, type, easing, indexAxis = 'y') => {
   return {
-    
     [indexAxis] : {
-      duration : duration,
-      type : type,
-      easing : easing,
-      from : (ctx) => 0
-    }
-  }
-},
-  progressive : (duration, type, easing, indexAxis = 'y') => {
-    return {
-        duration: duration,
-        x: {
-          delay: (context) => {
-            let delay = 0;
-            if (context.type === 'data' && context.mode === 'default') {
-              delay = context.dataIndex * duration;
-            }
-            return delay;
-          },
-          type: 'number',
-          easing: 'linear',
-          from: (ctx) => ctx.index === 0 ? NaN : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['x'], true).x,
-        },
-        y: {
-          delay: (context) => {
-            let delay = 0;
-            if (context.type === 'data' && context.mode === 'default') {
-              delay = context.dataIndex * duration;
-            }
-            return delay;
-          },
-          type: 'number',
-          easing: 'linear',
-          from: (ctx) => ctx.index === 0 ? NaN : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y,
-          // to: nextY
-        }
+        duration : duration,
+        type : type,
+        easing : easing,
+        from : (ctx) => 0
+      }
     }
   }
 }

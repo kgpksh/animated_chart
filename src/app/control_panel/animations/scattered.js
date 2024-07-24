@@ -40,6 +40,63 @@ const scatteredAnimations = {
       }
     },
 
+    from_left_bottom : (duration, type, easing, indexAxis = 'y') => {
+      return {
+        duration : duration,
+        type : type,
+        easing : easing,
+        x : {
+          from : (ctx) => 0
+        },
+        y : {
+          from : (ctx) => ctx.chart.height
+        }
+      }
+    },
+
+    from_right_bottom : (duration, type, easing, indexAxis = 'y') => {
+      return {
+        duration : duration,
+        type : type,
+        easing : easing,
+        x : {
+          from : (ctx) => ctx.chart.width
+        },
+        y : {
+          from : (ctx) => ctx.chart.height
+        }
+      }
+    },
+
+    from_left_top : (duration, type, easing, indexAxis = 'y') => {
+      const axis = indexAxis === 'y' ? 'x' : 'y'
+      return {
+        duration : duration,
+        type : type,
+        easing : easing,
+        x : {
+          from : (ctx) => 0
+        },
+        y : {
+          from : (ctx) => 0
+        }
+      }
+    },
+
+    from_right_top : (duration, type, easing, indexAxis = 'y') => {
+      return {
+        duration : duration,
+        type : type,
+        easing : easing,
+        x : {
+          from : (ctx) => ctx.chart.width
+        },
+        y : {
+          from : (ctx) => 0
+        }
+      }
+    },
+
 }
 
 export default scatteredAnimations
