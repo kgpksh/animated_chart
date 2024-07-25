@@ -32,7 +32,6 @@ const barAnimations = {
       },
       
       [indexAxis] : {
-        delay: 580,
         duration : delayBetweenPoints,
         type : type,
         easing : easing,
@@ -79,11 +78,7 @@ const barAnimations = {
         type : type,
         easing : easing,
         from : (ctx) => -(ctx.element?.width) / 3
-      },
-      // [axis] : {
-      //   duration: duration,
-      //   // from : (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1]?.getProps([axis], true)[axis],
-      // }
+      }
     }
   },
 
