@@ -60,12 +60,12 @@ const chartController = create((set, get) => ({
   },
 
   animationsOfChartType : {
-    [BigChartTypes.BAR] : {name : 'default', duration : 1000},
-    [BigChartTypes.LINE] : {name : 'default', duration : 1000},
+    [BigChartTypes.BAR] : {name : 'growing', duration : 1000},
+    [BigChartTypes.LINE] : {name : 'growing', duration : 1000},
     [BigChartTypes.PIE] : {name : 'default', duration : 1000},
     [BigChartTypes.SCATTERED] : {name : 'default', duration : 1000},
     [BigChartTypes.DONUT] : {name : 'default', duration : 1000},
-    [BigChartTypes.RADAR] : {name : 'default', duration : 1000},
+    [BigChartTypes.RADAR] : {name : 'radiating', duration : 1000},
     [BigChartTypes.PORAR] : {name : 'default', duration : 1000},
 
 },

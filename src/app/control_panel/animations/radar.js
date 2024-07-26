@@ -1,5 +1,5 @@
 const radarAnimations = {
-    default : (duration, type, easing, indexAxis = 'y') => {
+  radiating : (duration, type, easing, indexAxis = 'y') => {
         return {
           duration: duration,
           type : type,

@@ -1,10 +1,23 @@
 const barAnimations = {
-  default : (duration, type, easing, indexAxis = 'y') => {
+  growing : (duration, type, easing, indexAxis = 'x') => {
     return {
       duration: duration,
     }
   },
-  from_start : (duration, type, easing, indexAxis = 'y', dataLength) => {
+  delayed_growing : (duration, type, easing, indexAxis = 'x', dataLength) => {
+    const delayBetweenPoints = duration / dataLength
+    return {
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default') {
+          delay = context.dataIndex * delayBetweenPoints
+        }
+        return delay;
+      },
+      duration: duration,
+    }
+  },
+  from_start : (duration, type, easing, indexAxis = 'x', dataLength) => {
     const axis = indexAxis === 'y' ? 'x' : 'y'
     return {
       [indexAxis] : {
@@ -18,7 +31,7 @@ const barAnimations = {
       }
     }
   },
-  from_start_delayed : (duration, type, easing, indexAxis = 'y', dataLength) => {
+  from_start_delayed : (duration, type, easing, indexAxis = 'x', dataLength) => {
     const axis = indexAxis === 'y' ? 'x' : 'y'
     const delayBetweenPoints = duration / dataLength
     let delayed
@@ -35,7 +48,7 @@ const barAnimations = {
         duration : delayBetweenPoints,
         type : type,
         easing : easing,
-        from : (ctx) => -(ctx.element?.width) / 3
+        from : (ctx) => -(ctx.element?.width) / 2
       },
       [axis] : {
         duration : 0,
@@ -44,30 +57,23 @@ const barAnimations = {
     }
   },
   
-  from_start_growing : (duration, type, easing, indexAxis = 'y') => {
-    const axis = indexAxis === 'y' ? 'x' : 'y'
+  from_start_growing : (duration, type, easing, indexAxis = 'x') => {
     return {
       [indexAxis] : {
         duration : duration,
         type : type,
         easing : easing,
         from : (ctx) => -(ctx.element?.width) / 3
-      },
-      // [axis] : {
-      //   duration: duration,
-      //   from : (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1]?.getProps([axis], true)[axis],
-      // }
+      }
     }
   },
 
-  from_start_growing_delayed : (duration, type, easing, indexAxis = 'y', dataLength) => {
+  from_start_growing_delayed : (duration, type, easing, indexAxis = 'x', dataLength) => {
     const delayBetweenPoints = duration / dataLength
-    const axis = indexAxis === 'y' ? 'x' : 'y'
-    let delayed
     return {
       delay: (context) => {
         let delay = 0;
-        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+        if (context.type === 'data' && context.mode === 'default') {
           delay = context.dataIndex * delayBetweenPoints
         }
         return delay;

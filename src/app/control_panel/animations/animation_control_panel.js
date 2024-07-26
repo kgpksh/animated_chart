@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import animations from "./animations";
 
 export default function AnimationControlPanel() {
+    const chartRef = chartController((state) => state.chartRef)
+    const ctx = chartRef.current
     const chartType = chartController((state) => state.chartType)
     const animationsOfChartType = chartController((state) => state.animationsOfChartType)
     const durationRef = useRef(animationsOfChartType[chartType].duration / 1000)
@@ -32,7 +34,10 @@ export default function AnimationControlPanel() {
                     />
                     <Button
                         className="w-2/5 ml-2"
-                        onClick={() => setDuration((durationRef.current.value) * 1000)}
+                        onClick={() => {
+                            setDuration((durationRef.current.value) * 1000)
+                            ctx.reset()
+                        }}
                     >Apply duration</Button>
                 </div>
             </div>
@@ -47,6 +52,7 @@ export default function AnimationControlPanel() {
                             className="mt-1"
                             onClick={() => {
                                 setAniType(chartType, animation, (durationRef.current.value) * 1000)
+                                ctx.reset()
                             }}
                         >
                             {animation.replace(/_/g, ' ')}

@@ -1,6 +1,5 @@
 const lineAnimations = {
-  default : (duration, type, easing, indexAxis = 'y') => {
-
+  growing : (duration, type, easing, indexAxis = 'x') => {
     const axis = indexAxis === 'y' ? 'x' : 'y'
     return {
       duration: duration,
@@ -11,7 +10,7 @@ const lineAnimations = {
       }
     }
 },
-from_start : (duration, type, easing, indexAxis = 'y') => {
+from_start : (duration, type, easing, indexAxis = 'x') => {
   const axis = indexAxis === 'y' ? 'x' : 'y'
   return {
     [indexAxis] : {
@@ -26,7 +25,7 @@ from_start : (duration, type, easing, indexAxis = 'y') => {
     }
   }
 },
-from_start_growing : (duration, type, easing, indexAxis = 'y') => {
+from_start_growing : (duration, type, easing, indexAxis = 'x') => {
   return {
     [indexAxis] : {
         duration : duration,
@@ -35,7 +34,30 @@ from_start_growing : (duration, type, easing, indexAxis = 'y') => {
         from : (ctx) => 0
       }
     }
-  }
+  },
+  moving_forward : (duration, type, easing, indexAxis = 'x', dataLength) => {
+    const axis = indexAxis === 'y' ? 'x' : 'y'
+    const delayBetweenPoints = duration / dataLength
+    const previous = (ctx) => ctx.index === 0 ? ctx.chart.scales[axis].getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1]?.getProps([axis], true)[axis];
+    return {
+      [indexAxis]: {
+        type: 'number',
+        easing: 'linear',
+        duration: delayBetweenPoints,
+        from: NaN,
+        delay: (ctx) => ctx.index * delayBetweenPoints
+      },
+      [axis]: {
+        type: 'number',
+        easing: 'linear',
+        duration: delayBetweenPoints,
+        from: previous,
+        delay(ctx) {
+          return ctx.index * delayBetweenPoints;
+          }
+        }
+      }
+    }
 }
 
 export default lineAnimations

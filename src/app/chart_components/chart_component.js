@@ -98,12 +98,11 @@ export default function ChartView() {
 
   return {
       labels: isFlexibleLegend() ? (useLabel ? dataResource[0].slice(1) : dataResource[0]) : dataResource[0],
-      datasets: getDataSets(useLabel),
+      datasets: getDataSets(),
     };
   };
 
   const completeData = data()
-
   const animationType = 'number'
   const animationConfig = animationsOfChartType[chartType]
 
@@ -113,7 +112,7 @@ export default function ChartView() {
       const progress = (ctx.currentStep / ctx.numSteps) * 100
       setProgress(progress)
     },
-    ...animations[chartType][animationConfig.name](animationConfig.duration, animationType, easing, indexAxis, completeData.datasets.length)
+    ...animations[chartType][animationConfig.name](animationConfig.duration, animationType, easing, indexAxis, completeData?.datasets[0]?.data.length)
   }
 
 
