@@ -1,10 +1,10 @@
 "use client"
 
-import chartController from "@/app/zustand_chart_controller";
-import useDataFileStore from "@/app/zustand_file_storage"
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { useMemo } from "react"
+import chartController from "../../zustand_chart_controller";
+import useDataFileStore from "../../zustand_file_storage";
 
 export default function DataTable() {
     const { dataResource, updateValue } = useDataFileStore();

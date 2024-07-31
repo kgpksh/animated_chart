@@ -1,7 +1,7 @@
 "use client"
 
-import { BigChartTypes } from "@/app/chart-parts-provider";
-import chartController from "@/app/zustand_chart_controller";
+import { BigChartTypes } from "@/app/chart/chart-parts-provider";
+import chartController from "@/app/chart/zustand_chart_controller";
 import { BarChart2, LineChartIcon, Moon, PieChart, ScatterChart, Sun } from "lucide-react";
 import TitleController from "./title_controller";
 import CartesianController from "./axes/cartesian/cartesian_axes";

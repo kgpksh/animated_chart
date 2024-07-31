@@ -4,8 +4,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import InputFileButton from "./input_file_button";
 import DataTable from "./table_component";
 import { Button } from "@/components/ui/button";
-import useDataFileStore from "@/app/zustand_file_storage";
-import chartController from "@/app/zustand_chart_controller";
+import useDataFileStore from "../../zustand_file_storage";
+import chartController from "../../zustand_chart_controller";
 const datasetLabel = 'datasetLabel'
 
 export default function IntegratedDataPanel() {

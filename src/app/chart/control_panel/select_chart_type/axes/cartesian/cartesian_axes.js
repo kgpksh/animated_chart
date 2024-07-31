@@ -1,6 +1,6 @@
 "use client"
 
-import chartController from "@/app/zustand_chart_controller"
+import chartController from "@/app/chart/zustand_chart_controller"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AxesController from "./axes_controller"
 import { isCartesian } from "@/lib/utils"

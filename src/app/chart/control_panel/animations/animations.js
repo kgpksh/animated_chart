@@ -1,4 +1,4 @@
-import { BigChartTypes } from "@/app/chart-parts-provider"
+import { BigChartTypes } from "@/app/chart/chart-parts-provider"
 import barAnimations from "./bar"
 import donutAnimations from "./donut"
 import lineAnimations from "./line"

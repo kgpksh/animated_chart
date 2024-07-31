@@ -1,6 +1,6 @@
 "use client"
 
-import chartController from "@/app/zustand_chart_controller"
+import chartController from "@/app/chart/zustand_chart_controller"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"

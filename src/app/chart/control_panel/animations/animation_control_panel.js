@@ -1,12 +1,12 @@
 "use client"
 
-import chartController from "@/app/zustand_chart_controller";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import animations from "./animations";
+import chartController from "../../zustand_chart_controller";
 
 export default function AnimationControlPanel() {
     const chartRef = chartController((state) => state.chartRef)

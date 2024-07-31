@@ -1,11 +1,11 @@
-import chartController from "@/app/zustand_chart_controller";
+import chartController from "@/app/chart/zustand_chart_controller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import RadiantLineController from "./line_controller";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import RadiantDotController from "./dot_controller";
 import { isRadiant } from "@/lib/utils";
-import { BigChartTypes } from "@/app/chart-parts-provider";
+import { BigChartTypes } from "@/app/chart/chart-parts-provider";
 
 export default function RadiantAxis() {
     const {chartType, radarElementsFill, changeRadarElementsFill, radarScale} = chartController()

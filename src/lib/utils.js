@@ -1,4 +1,4 @@
-import { BigChartTypes } from "@/app/chart-parts-provider"
+import { BigChartTypes } from "@/app/chart/chart-parts-provider"
 import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
