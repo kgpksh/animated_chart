@@ -1,15 +1,45 @@
 "use client"
+
 import { Button } from "@/components/ui/button"
 import chartController from "../zustand_chart_controller"
 import { Download } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function VideoCreateButtons() {
     const videoUrl = chartController((state) => state.videoUrl)
-    const chartRef = chartController((state) => state.chartRef)
     const startRecord = chartController((state) => state.startRecord)
     const isRecording = chartController((state) => state.isRecording)
     const setProgress = chartController((state) => state.setProgress)
-    
+    const chartRef = chartController((state) => state.chartRef)
+    const [width, setWidth] = useState()
+    const [height, setHeight] = useState()
+
+    useEffect(() => {
+      const updateDimensions = () => {
+          const canvas = chartRef?.current?.ctx?.canvas;
+          if (!canvas) {
+              return;
+          }
+          setWidth(canvas.width);
+          setHeight(canvas.height);
+      };
+
+      const canvas = chartRef?.current?.ctx?.canvas;
+      if (canvas) {
+          updateDimensions();
+
+          const observer = new MutationObserver(updateDimensions);
+          observer.observe(canvas, {
+              attributes: true,
+              attributeFilter: ['width', 'height']
+          });
+
+          return () => {
+              observer.disconnect();
+          };
+      }
+  }, [chartRef]);
+
     const handleDownload = () => {
       if (videoUrl) {
         const a = document.createElement('a')
@@ -20,23 +50,33 @@ export default function VideoCreateButtons() {
         document.body.removeChild(a)
       }
     }
+
+    if(!chartRef) {
+      return null
+    }
   
     return (
-      <div className="w-full flex px-3 mb-2 items-center space-x-24">
-        <Button 
-                disabled={isRecording}
-                onClick={() => {
-                  setProgress(0)
-                    startRecord()
-                    const ctx = chartRef.current
-                    ctx.reset()
-                    ctx.update()
-                }}>Create video
-                </Button>
-        <Button onClick={handleDownload} disabled={!videoUrl}>
-          <Download className="mr-2"/>
-          <div>Download</div>
-        </Button>
+      <div className="w-full flex flex-col px-3 mb-2 ">
+        <div className="w-full flex items-center space-x-24">
+          <Button
+            disabled={isRecording}
+            onClick={() => {
+              setProgress(0)
+              startRecord()
+            }}
+          >
+            Create video
+          </Button>
+          <Button onClick={handleDownload} disabled={!videoUrl}>
+            <Download className="mr-2"/>
+            <div>Download</div>
+          </Button>
+        </div>
+        <div className="text-xs mt-2">
+          <div>As your current display status, size of video : {width} x {height}.</div>
+          <div>The size and shape of the video is exactly the same as the size of the chart you're currently viewing.</div>
+          <div>For the full-size video, maximize your browser's window.</div>
+        </div>
       </div>
       
     )

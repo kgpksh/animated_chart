@@ -27,7 +27,15 @@ const chartController = create((set, get) => ({
       mediaRecorder = null
     }, 1000);
   },
-
+  videoSize: {width: 0, height: 0},
+  setVideoSize: () =>{
+    const canvas = get()?.chartRef?.current.ctx.canvas
+    if(!canvas) {
+      return
+    }
+    const newVideoSize = {width: canvas.width, height: canvas.height}
+    set({videoSize: newVideoSize})
+  },
   isRecording : false,
 
   videoUrl : null,
@@ -35,23 +43,26 @@ const chartController = create((set, get) => ({
   startRecord: () => {
     set({isRecording : true})
     set({videoUrl : null})
-    const canvas = get().chartRef.current.ctx.canvas;
-    const options = { mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 5 * 1024 * 1024 };
-    mediaRecorder = new MediaRecorder(canvas.captureStream(), options);
-    const arrVideoData = []
+      const canvas = get().chartRef.current.ctx.canvas;
+      const options = { mimeType: 'video/webm; codecs=vp9'};
+      mediaRecorder = new MediaRecorder(canvas.captureStream(), options);
+      const arrVideoData = []
 
-    mediaRecorder.ondataavailable = (evt) => {
-      arrVideoData.push(evt.data)
-    }
+      mediaRecorder.ondataavailable = (evt) => {
+        arrVideoData.push(evt.data)
+      }
 
-    mediaRecorder.onstop = (evt) => {
-      const blob = new Blob(arrVideoData, { type: 'video/mp4' })
-      const blobURL = window.URL.createObjectURL(blob)
-      set({videoUrl : blobURL})
-      set({isRecording : false})
-    }
+      mediaRecorder.onstop = (evt) => {
+        const blob = new Blob(arrVideoData, { type: 'video/mp4' })
+        const blobURL = window.URL.createObjectURL(blob)
+        set({videoUrl : blobURL})
+        set({isRecording : false})
+      }
 
-    mediaRecorder.start()
+      
+      get().chartRef?.current.reset()
+      get().chartRef?.current.update()
+      mediaRecorder.start()
   },
 
   easing : 'linear',

@@ -110,7 +110,9 @@ export default function ChartView() {
     onComplete: onComplete,
     onProgress: (ctx) => {
       const progress = (ctx.currentStep / ctx.numSteps) * 100
-      setProgress(progress)
+      if(progress % 2 === 0) {
+        setProgress(progress)
+      }
     },
     ...animations[chartType][animationConfig.name](animationConfig.duration, animationType, easing, indexAxis, completeData?.datasets[0]?.data.length)
   }

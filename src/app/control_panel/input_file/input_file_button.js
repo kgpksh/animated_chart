@@ -2,20 +2,22 @@
 
 import { Input } from "@/components/ui/input";
 import useDataFileStore from "../../zustand_file_storage";
+
 import XLSX from 'xlsx'
 
 export default function InputFileButton() {
-    const { dataResource } = useDataFileStore();
+    // const { dataResource } = useDataFileStore();
 
     const handleFile = (selectedFile) => {
         if (!selectedFile) return;
 
-        if(dataResource !== null) {
-            const changeAnswer = window.confirm("A file is already selected. Do you want to replace it with a new file?")
-            if(!changeAnswer) {
-                return
-            }
-        }
+        // if(dataResource !== null) {
+            
+        //     const changeAnswer = window.confirm("A file is already selected. Do you want to replace it with a new file?")
+        //     if(!changeAnswer) {
+        //         return
+        //     }
+        // }
 
         const reader = new FileReader()
         reader.onload = function(f) {
@@ -26,21 +28,21 @@ export default function InputFileButton() {
             const sheet = workbook.Sheets[sheetName]
             const dataArr = XLSX.utils.sheet_to_json(sheet, {header:1})
 
-            let hasEmptyCell = false
-            for (let i = 0; i < dataArr.length; i++) {
-                for (let j = 0; j < dataArr[i].length; j++) {
-                    if (dataArr[i][j] === undefined || dataArr[i][j] === null || dataArr[i][j] === "") {
-                        hasEmptyCell = true
-                        break
-                    }
-                }
-                if (hasEmptyCell) break
-            }
+            // let hasEmptyCell = false
+            // for (let i = 0; i < dataArr.length; i++) {
+            //     for (let j = 0; j < dataArr[i].length; j++) {
+            //         if (dataArr[i][j] === undefined || dataArr[i][j] === null || dataArr[i][j] === "") {
+            //             hasEmptyCell = true
+            //             break
+            //         }
+            //     }
+            //     if (hasEmptyCell) break
+            // }
 
-            if (hasEmptyCell) {
-                alert("Empty cells are included. Please check the data.")
-                return
-            }
+            // if (hasEmptyCell) {
+            //     alert("Empty cells are included. Please check the data.")
+            //     return
+            // }
             useDataFileStore.setState({dataResource : dataArr})
         }
         reader.readAsArrayBuffer(selectedFile)
