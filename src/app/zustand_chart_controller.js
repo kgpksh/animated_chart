@@ -108,6 +108,10 @@ const chartController = create((set, get) => ({
       return {useLabel : changedState}
     })
   },
+  toggleOverlayLabels : false,
+  changeOverlayLabelsToggle: (toggle) => set({toggleOverlayLabels: toggle}),
+  overlayLabelsSize : 14,
+  changeOverlayLabelsSize: (size) => set({overlayLabelsSize: size}),
   cartesianScale : {
     x: {
       min : null,

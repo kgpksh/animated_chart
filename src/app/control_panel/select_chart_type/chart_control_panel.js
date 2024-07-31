@@ -9,10 +9,15 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import BackgroundController from "./background_controller";
 import RadiantAxis from "./axes/radiant/radiant_axis";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { useRef } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function ChartControlPanel() {
     const chartTypeIconSize = 64
-    const { chartType, selectChartType } = chartController()
+    const { chartType, selectChartType, toggleOverlayLabels, changeOverlayLabelsToggle, overlayLabelsSize, changeOverlayLabelsSize } = chartController()
+    const overlayLabelSizeRef = useRef(overlayLabelsSize)
     return (
         <ScrollArea className="h-[78vh] text-xl font-black p-1">
             <div>Chart type</div>
@@ -61,6 +66,43 @@ export default function ChartControlPanel() {
                 <Sun size={chartTypeIconSize}/>
             </button>
         </div>
+        <div className="mt-2">Overlay labels</div>
+        
+        <div className="hover:cursor-pointer mt-2">
+                <Checkbox
+                id={'toggleOverlayLabels'}
+                checked={toggleOverlayLabels}
+                onCheckedChange={(checked) => {
+                    changeOverlayLabelsToggle(checked)
+                }}
+                className='mr-2'></Checkbox>
+                <label 
+                  htmlFor={'toggleOverlayLabels'}
+                  className="text-sm hover:cursor-pointer"
+                >Toggle overlay labels</label>
+            </div>
+            <div className="flex mt-2 ml-1">
+                <Input
+                    defaultValue = {overlayLabelsSize}
+                    placeholder= {'overlay labels size'}
+                    className='w-1/2'
+                    ref={overlayLabelSizeRef}
+                    // onChange = {() => {
+                        
+                    // }}
+                />
+                <Button 
+                    disabled={!toggleOverlayLabels}
+                    className='ml-2'
+                    onClick={() => {
+                        const newSize = overlayLabelSizeRef.current.value
+                        changeOverlayLabelsSize(newSize)
+                    }}
+                >
+                    Apply
+                </Button>
+            </div>
+            
 
             <Accordion type="multiple" collapsible defaultValue={['axes']}>
                 {!(chartType === BigChartTypes.DONUT || chartType == BigChartTypes.PIE) ? 

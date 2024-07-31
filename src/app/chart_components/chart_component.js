@@ -1,6 +1,7 @@
 "use client";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
@@ -9,7 +10,7 @@ import { isCartesian } from "@/lib/utils";
 import animations from "../control_panel/animations/animations";
 import RecordingView from "./recording_view";
 
-ChartJS.register(...registerables);
+ChartJS.register(...registerables, ChartDataLabels);
 
 export default function ChartView() {
   const localChartRef = useRef(null);
@@ -27,6 +28,8 @@ export default function ChartView() {
   const onComplete = chartController((state) => state.onComplete)
   const easing = chartController((state) => state.easing)
   const setProgress = chartController((state) => state.setProgress)
+  const toggleOverlayLabels = chartController((state) => state.toggleOverlayLabels)
+  const overlayLabelsSize = chartController((state) => state.overlayLabelsSize)
 
   const [key, setKey] = useState(0)
 
@@ -137,8 +140,16 @@ export default function ChartView() {
         display: isCartesian(chartType) || chartType === BigChartTypes.RADAR ? useLabel : true,
       },
       title: title,
+      datalabels: {
+        display: toggleOverlayLabels,
+        color: 'black',
+        font: {
+          size: overlayLabelsSize
+        }
+      },
     },
   }
+
   return (
     <div className="relative w-full h-full flex items-center justify-center">
      
