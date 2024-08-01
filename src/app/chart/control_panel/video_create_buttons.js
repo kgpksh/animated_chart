@@ -4,8 +4,12 @@ import { Button } from "@/components/ui/button"
 import chartController from "../zustand_chart_controller"
 import { Download } from "lucide-react"
 import { useEffect, useState } from "react"
+import useAuthStore from "@/app/header_components/zustand_auth"
+import CheckVideoAuth from "./check_video_auth"
+import { SubscriptionStatus } from "@/app/subscription/subscription_status"
 
 export default function VideoCreateButtons() {
+    const firestoreSubscription = useAuthStore((state) => state.firestoreSubscription)
     const videoUrl = chartController((state) => state.videoUrl)
     const startRecord = chartController((state) => state.startRecord)
     const isRecording = chartController((state) => state.isRecording)
@@ -57,21 +61,25 @@ export default function VideoCreateButtons() {
   
     return (
       <div className="w-full flex flex-col px-3 mb-2 ">
-        <div className="w-full flex items-center space-x-24">
-          <Button
-            disabled={isRecording}
-            onClick={() => {
-              setProgress(0)
-              startRecord()
-            }}
-          >
-            Create video
-          </Button>
-          <Button onClick={handleDownload} disabled={!videoUrl}>
-            <Download className="mr-2"/>
-            <div>Download</div>
-          </Button>
-        </div>
+        {firestoreSubscription?.status === SubscriptionStatus.ACTIVE ?
+          <div className="w-full flex items-center space-x-24">
+            <Button
+              disabled={isRecording}
+              onClick={() => {
+                setProgress(0)
+                startRecord()
+              }}
+            >
+              Create video
+            </Button>
+            <Button onClick={handleDownload} disabled={!videoUrl}>
+              <Download className="mr-2"/>
+              <div>Download</div>
+            </Button>
+          </div>
+          :
+          <CheckVideoAuth/>
+        }
         <div className="text-xs mt-2">
           <div>As your current display status, size of video : {width} x {height}.</div>
           <div>The size and shape of the video is exactly the same as the size of the chart you're currently viewing.</div>
