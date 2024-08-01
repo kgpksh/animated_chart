@@ -2,7 +2,7 @@
 
 import { BigChartTypes } from "@/app/chart/chart-parts-provider";
 import chartController from "@/app/chart/zustand_chart_controller";
-import { BarChart2, LineChartIcon, Moon, PieChart, ScatterChart, Sun } from "lucide-react";
+import { BarChartBig, LineChartIcon, PieChart, ScatterChart } from "lucide-react";
 import TitleController from "./title_controller";
 import CartesianController from "./axes/cartesian/cartesian_axes";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,6 +13,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import DonutChartIcon from "./chart_icons/donut_icon";
+import RadarChartIcon from "./chart_icons/radar_icon";
+import PolarChartIcon from "./chart_icons/polar_icon";
 
 export default function ChartControlPanel() {
     const chartTypeIconSize = 64
@@ -27,7 +30,7 @@ export default function ChartControlPanel() {
                 onClick={() => selectChartType(BigChartTypes.BAR)} 
                 className={`flex items-center justify-center ${chartType === BigChartTypes.BAR ? 'bg-gray-400' : ''}`}
             >
-                <BarChart2 size={chartTypeIconSize}/>
+                <BarChartBig size={chartTypeIconSize}/>
             </button>
             <button 
                 onClick={() => selectChartType(BigChartTypes.LINE)} 
@@ -42,28 +45,28 @@ export default function ChartControlPanel() {
                 <PieChart size={chartTypeIconSize}/>
             </button>
             <button 
+                onClick={() => selectChartType(BigChartTypes.DONUT)} 
+                className={`flex items-center justify-center ${chartType === BigChartTypes.DONUT ? 'bg-gray-400' : ''}`}
+            >
+                <DonutChartIcon width={chartTypeIconSize} height={chartTypeIconSize}></DonutChartIcon>
+            </button>
+            <button 
                 onClick={() => selectChartType(BigChartTypes.SCATTERED)} 
                 className={`flex items-center justify-center ${chartType === BigChartTypes.SCATTERED ? 'bg-gray-400' : ''}`}
             >
                 <ScatterChart size={chartTypeIconSize}/>
             </button>
             <button 
-                onClick={() => selectChartType(BigChartTypes.DONUT)} 
-                className={`flex items-center justify-center ${chartType === BigChartTypes.DONUT ? 'bg-gray-400' : ''}`}
-            >
-                <Moon size={chartTypeIconSize}/>
-            </button>
-            <button 
                 onClick={() => selectChartType(BigChartTypes.RADAR)} 
                 className={`flex items-center justify-center ${chartType === BigChartTypes.RADAR ? 'bg-gray-400' : ''}`}
             >
-                <Sun size={chartTypeIconSize}/>
+                <RadarChartIcon width={chartTypeIconSize} height={chartTypeIconSize}></RadarChartIcon>
             </button>
             <button 
                 onClick={() => selectChartType(BigChartTypes.PORAR)} 
                 className={`flex items-center justify-center ${chartType === BigChartTypes.PORAR ? 'bg-gray-400' : ''}`}
             >
-                <Sun size={chartTypeIconSize}/>
+                <PolarChartIcon width={chartTypeIconSize} height={chartTypeIconSize}></PolarChartIcon>
             </button>
         </div>
         <div className="mt-2">Overlay labels</div>
