@@ -1,10 +1,12 @@
 "use client"
 
 import { Chart as ChartJS, registerables } from "chart.js";
+import { useTheme } from "next-themes";
 import { Chart } from "react-chartjs-2";
 
 ChartJS.register(...registerables);
 export default function ChartViewSample() {
+    const { theme, setTheme } = useTheme()
     const delayBetweenPoints = 2000 / 12
     return (
         <Chart
@@ -33,6 +35,18 @@ export default function ChartViewSample() {
                           return delay;
                         },
                         duration: 2000,
+                  },
+                  scales: {
+                    x: {
+                      grid: {
+                        color: theme === 'dark' ? 'rgba(249, 250, 251, 0.5)' : undefined
+                      }
+                    },
+                    y: {
+                      grid: {
+                        color:theme === 'dark' ? 'rgba(249, 250, 251, 0.5)' : undefined
+                      }
+                    }
                   },
                     layout: {
                         padding: 20,
