@@ -55,7 +55,7 @@ export default function ChartViewSample() {
                         title: {
                                 display : true,
                                 text : 'Sales records',
-                                color: '#000000',
+                                color: theme ==='light' ? '#000000' : '#FFFFFF',
                                 align: 'center',
                                 position: 'top',
                                 font :{
