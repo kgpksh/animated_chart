@@ -1,11 +1,13 @@
 "use client"
 
-import { Chart as ChartJS, registerables } from "chart.js";
 import { useTheme } from "next-themes";
 import { Chart } from "react-chartjs-2";
+import chartController from "./chart/zustand_chart_controller";
 
-ChartJS.register(...registerables);
 export default function ChartViewSample() {
+  const registerBasics = chartController((state) => state.registerBasics)
+  registerBasics()
+  
     const { theme, setTheme } = useTheme()
     const delayBetweenPoints = 2000 / 12
     return (
@@ -63,6 +65,9 @@ export default function ChartViewSample() {
                                 weight : 'bold'
                                 },
                             },
+                            datalabels: {
+                              display: false
+                            }
                         }
                 }
             }

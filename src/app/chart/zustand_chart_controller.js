@@ -1,9 +1,14 @@
 "use client"
 
-import { BigChartTypes } from "./chart-parts-provider";
 const { create } = require("zustand");
+import { BigChartTypes } from "./chart-parts-provider";
+import { Chart as ChartJS, registerables } from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 
 let mediaRecorder = null
+let isBasicRegistered = false
+let isDatalabelsRegistered = false
 
 const chartController = create((set, get) => ({
   chartRef: null,
@@ -12,7 +17,20 @@ const chartController = create((set, get) => ({
   selectChartType(inputType) {
       set({chartType : inputType})
   },
-
+  registerBasics() {
+    if(isBasicRegistered) {
+      return
+    }
+    ChartJS.register(...registerables);
+    isBasicRegistered = true
+  },
+  registerDataLabels() {
+    if(!isDatalabelsRegistered) {
+      return
+    }
+    ChartJS.register(ChartDataLabels);
+    isDatalabelsRegistered = true
+  },
   progress: 0,
   setProgress : (progress) => set({progress : progress}),
 

@@ -1,7 +1,5 @@
 "use client";
-import { Chart as ChartJS, registerables } from "chart.js";
 import { Chart } from "react-chartjs-2";
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import useDataFileStore from "../zustand_file_storage";
 import chartController from "../zustand_chart_controller";
 import { BigChartTypes } from "../chart-parts-provider";
@@ -10,9 +8,12 @@ import { isCartesian } from "@/lib/utils";
 import animations from "../control_panel/animations/animations";
 import RecordingView from "./recording_view";
 
-ChartJS.register(...registerables, ChartDataLabels);
-
 export default function ChartView() {
+  const registerBasics = chartController((state) => state.registerBasics)
+  const registerDataLabels = chartController((state) => state.registerDataLabels)
+  registerBasics()
+  registerDataLabels()
+  
   const localChartRef = useRef(null);
   const dataResource = useDataFileStore((state) => state.dataResource);
   const setChartRef  = chartController((state) => state.setChartRef);
@@ -149,7 +150,7 @@ export default function ChartView() {
       },
     },
   }
-
+  
   return (
     <div className="relative w-full h-full flex items-center justify-center">
      
