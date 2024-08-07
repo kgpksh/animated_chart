@@ -23,7 +23,7 @@ export default function Header() {
 
     return (
         <>
-            <Link href='/' className="font-bold">To home</Link>
+            <h1 className="text-lg"><Link href='/' className="font-bold">Animated Chart</Link></h1>
             <div className="flex items-center gap-x-4">
                 <div className={`flex items-center gap-x-4 ${isLoggedIn() ? 'hidden' : true}`}>
                     <Button className="font-bold" onClick={signIn}>SignUp Or Login</Button>
