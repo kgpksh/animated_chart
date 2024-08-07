@@ -6,11 +6,10 @@ import { ArrowDown } from "lucide-react";
 
 export default function Home() {
     return (
-      <div className="w-full h-full items-center justify-center">
         <div className="flex w-full h-full items-center justify-center">
-          <div className="w-1/3 h-1/2 p-3">
+          <div className="w-[700px] h-1/2 p-3">
             <h2 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-5">Chart animation tool</h2>
-            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Convert your excel data to chart animation</h3>
+            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Convert your excel data to custom chart animation</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Download mp4 video files to your computer</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Running on your local PC</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- No chart data sending to server</h3>
@@ -25,7 +24,6 @@ export default function Home() {
             <ChartViewSample />
           </div>
         </div>
-      </div>
       
     );
   }
