@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
           strategy="beforeInteractive"
         />
       </head>
-      <body className="flex flex-col p-10 items-center h-screen">
+      <body className="flex flex-col px-10 pt-10 items-center h-screen">
       <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
               <Header/>
             </header>
           
-          <main className="flex flex-col items-center justify-center h-full w-full mt-11 px-11">
+          <main className="flex flex-col items-center justify-center flex-grow w-full mt-11 px-11">
             {children}
           </main>
           <footer><Footer/></footer>

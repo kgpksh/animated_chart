@@ -4,7 +4,7 @@ export default function TermsOfService() {
     const domain = 'animated-chart.codecrafter.run'
     return (
         <div className="w-2/3 h-full items-center justify-center">
-            <h2 style={{"text-align": 'center'}}><b>TERMS OF SERVICE</b></h2>
+            <h2 style={{"textAlign": 'center'}}><b>TERMS OF SERVICE</b></h2>
             <p>Last updated: 2024-08-05</p>
             <p>1. <b>Introduction</b></p>
             <p>Welcome to <b>mywebsite</b> (“Company”, “we”, “our”, “us”)!</p>
