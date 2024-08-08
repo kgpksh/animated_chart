@@ -11,7 +11,7 @@ export const metadata = {
   title: "Animated chart",
   description: "Animated chart is a tool that helps with data visualization. The animated chart converts 2D data, such as Excel files, into chart and graph animations. A user can create and download custom animations across a wide range.",
   icons: {
-    icon: "/favicon.jpg",
+    icon: "/favicon.png",
   }
 };
 
