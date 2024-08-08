@@ -11,7 +11,9 @@ import "react-color-palette/css";
 
 export default function AxesController({axis}) {
     const {cartesianScale, changeCartesianScale} = chartController()
+    const minCheckboxRef = useRef(null)
     const minRef = useRef(null)
+    const maxCheckboxRef = useRef(null)
     const maxRef = useRef(null)
     const titleRef = useRef(null)
     const titleFontRef = useRef(null)
@@ -133,7 +135,7 @@ export default function AxesController({axis}) {
                     </Select>
             </div>
 
-            <h5 className="text-sm mt-2">Range</h5>
+            <h5 className="text-sm mt-2">Range (Only availble when axis type is not 'Category')</h5>
             <div className="flex mt-1 ml-2 items-center">
                 <Checkbox
                     id={'min'}
@@ -166,7 +168,28 @@ export default function AxesController({axis}) {
                     className='w-1/2'
                     ref={minRef}
                     type='number'
-                ></Input>
+                />
+                <Button
+                    disabled={cartesianScale[axis].min === null}
+                    className="ml-2"
+                    onClick={() => {
+                        const newScale = { ...cartesianScale }
+                        const newVal = minRef.current.value
+                        if(newVal === null || newVal === '') {
+                            alert('Please input min number')
+                            return
+                        }
+
+                        if(isNaN(newVal)) {
+                            newScale[axis].min = null
+                        } else {
+                            newScale[axis].min = parseFloat(newVal)
+                        }
+                        changeCartesianScale(newScale)
+                    }}
+                >
+                    Apply
+                </Button>
             </div>
             <div className="flex mt-1 ml-2 items-center">
                 <Checkbox
@@ -200,7 +223,28 @@ export default function AxesController({axis}) {
                     className='w-1/2'
                     ref={maxRef}
                     type='number'
-                ></Input>
+                />
+                <Button
+                    disabled={cartesianScale[axis].max === null}
+                    className="ml-2"
+                    onClick={() => {
+                        const newScale = { ...cartesianScale }
+                        const newVal = maxRef.current.value
+                        if(newVal === null || newVal === '') {
+                            alert('Please input max number')
+                            return
+                        }
+
+                        if(isNaN(newVal)) {
+                            newScale[axis].max = null
+                        } else {
+                            newScale[axis].max = parseFloat(newVal)
+                        }
+                        changeCartesianScale(newScale)
+                    }}
+                >
+                    Apply
+                </Button>
             </div>
 
             <h5 className="text-sm mt-2">Grid</h5>
