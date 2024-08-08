@@ -152,7 +152,7 @@ export default function ChartView() {
   }
   
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
+    <div className="relative w-full h-5/6 flex items-center justify-center">
      
         <RecordingView/>
         <Chart
