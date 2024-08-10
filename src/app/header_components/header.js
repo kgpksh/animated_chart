@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { Moon, Sun } from "lucide-react"
 import useAuthStore from "./zustand_auth"
 import AccountModal from "./account_modal"
-import Image from "next/image"
+import LoginModal from "./login_modal"
 
 
 
@@ -32,7 +32,7 @@ export default function Header() {
             </h1>
             <div className="flex items-center gap-x-4">
                 <div className={`flex items-center gap-x-4 ${isLoggedIn() ? 'hidden' : true}`}>
-                    <Button className="font-bold" onClick={signIn}>SignUp Or Login</Button>
+                    <LoginModal/>
                 </div>
                 <Button className={`font-bold ${!isLoggedIn() ? 'hidden' : ''}`} onClick={signOut}>Log out</Button>
                 <AccountModal/>
