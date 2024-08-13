@@ -59,6 +59,7 @@ const chartController = create((set, get) => ({
   videoUrl : null,
 
   startRecord: () => {
+    get().chartRef?.current.stop()
     set({isRecording : true})
     set({videoUrl : null})
       const canvas = get().chartRef.current.ctx.canvas;
@@ -77,7 +78,6 @@ const chartController = create((set, get) => ({
         set({isRecording : false})
       }
 
-      
       get().chartRef?.current.reset()
       get().chartRef?.current.update()
       mediaRecorder.start()

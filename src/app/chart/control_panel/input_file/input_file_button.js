@@ -26,7 +26,7 @@ export default function InputFileButton() {
             const workbook = XLSX.read(data, {dense:true})
             const sheetName = workbook.SheetNames[0]
             const sheet = workbook.Sheets[sheetName]
-            const dataArr = XLSX.utils.sheet_to_json(sheet, {header:1})
+            const dataArr = XLSX.utils.sheet_to_json(sheet, {header:1, defval:null})
 
             // let hasEmptyCell = false
             // for (let i = 0; i < dataArr.length; i++) {

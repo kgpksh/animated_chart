@@ -12,6 +12,7 @@ export default function RecordingView() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-[#09090B]">
                     <Progress value={progress}/>
                     <div className="text-xl font-bold">Creating video...</div>
+                    <div className="text-xl font-bold">Do not minimize or move to another window for accurate creation.</div>
                 </div>
             )}
         </>
