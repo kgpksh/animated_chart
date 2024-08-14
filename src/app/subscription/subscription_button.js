@@ -6,7 +6,6 @@ import { SubscriptionStatus } from "./subscription_status";
 
 export default function SubscriptionButton() {
     const {getUid, getEmail, firestoreSubscription} = useAuthStore()
-    const productId = process.env.NEXT_PUBLIC_PRODUCT_ID_UNLOCKER
     const monthItems = [
         {
             priceId: process.env.NEXT_PUBLIC_PRICE_ID_UNLOCKER,

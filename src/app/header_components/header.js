@@ -9,24 +9,30 @@ import { Moon, Sun } from "lucide-react"
 import useAuthStore from "./zustand_auth"
 import AccountModal from "./account_modal"
 import LoginModal from "./login_modal"
-
-
+import Image from "next/image"
 
 export default function Header() {
-    const {isLoggedIn, signIn, signOut} = useAuthStore()
+    const {isLoggedIn, signOut} = useAuthStore()
 
     const { theme, setTheme } = useTheme()
     const [ isDarkMode, setIsDarkmode] = useState()
 
     useEffect(() => {
         setIsDarkmode(theme == 'dark')
+        if (Paddle) {
+            if(process.env.NEXT_PUBLIC_PADDLE_ENVIORNMENT_MODE === 'sandbox') {
+                Paddle.Environment.set(process.env.NEXT_PUBLIC_PADDLE_ENVIORNMENT_MODE);
+            }
+            
+            Paddle.Initialize({ token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN });
+          }
     }, [])
 
     return (
         <>
             <h1 className="text-lg">
                 <Link href='/' className="flex font-bold items-center">
-                    <img src={'/favicon.png'} width={40} height={40} alt="Logo"/>
+                    <Image src={'/favicon.png'} width={40} height={40} alt="Logo"/>
                     Animated Chart
                 </Link>
             </h1>

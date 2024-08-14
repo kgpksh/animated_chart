@@ -8,17 +8,10 @@ import useAuthStore from "./zustand_auth";
 import { ScheduledAction, SubscriptionStatus } from "../subscription/subscription_status";
 import formatDateString from "../utils/date_time_format_converter";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import UpdateSubscriptionDetailButton from "../subscription/update_detail_button";
 import RemoveCancelButton from "../subscription/remove_cancel";
 
 export default function AccountModal() {
-    useEffect(() => {
-        if (Paddle) {
-            Paddle.Environment.set("sandbox");
-            Paddle.Initialize({ token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN });
-          }
-    }, [])
 
     const {isLoggedIn, firestoreSubscription} = useAuthStore()
     const styles = {
