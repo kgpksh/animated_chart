@@ -1,13 +1,13 @@
 export default function TermsOfService() {
-    const websiteName = 'Animated-chart'
+    const websiteName = 'animated-chart'
     const email = 'tkappdevelop@gmail.com'
-    const domain = 'animated-chart.codecrafter.run'
+    const domain = 'animated-chart.com'
     return (
         <div className="w-2/3 h-full items-center justify-center">
             <h2 style={{"textAlign": 'center'}}><b>TERMS OF SERVICE</b></h2>
             <p>Last updated: 2024-08-05</p>
             <p>1. <b>Introduction</b></p>
-            <p>Welcome to <b>mywebsite</b> (“Company”, “we”, “our”, “us”)!</p>
+            <p>Welcome to <b>{websiteName}</b> (“we”, “our”, “us”)!</p>
             <p>These Terms of Service (“Terms”, “Terms of Service”) govern your use of our website located at <b>{domain}</b> (together or individually “Service”) operated by <b>{websiteName}</b>.</p>
             <p>Our Privacy Policy also governs your use of our Service and explains how we collect, safeguard and disclose information that results from your use of our web pages.</p>
             <p>Your agreement with us includes these Terms and our Privacy Policy (“Agreements”). You acknowledge that you have read and understood Agreements, and agree to be bound of them.</p>
