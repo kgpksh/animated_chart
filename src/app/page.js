@@ -13,7 +13,7 @@ export default function Home() {
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Download mp4 video files to your computer</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Running on your local PC</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- No chart data sending to server</h3>
-            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Unlock tool and features in $20/mo</h3>
+            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Unlock tools and features in $20/mo</h3>
             <Button className='mt-6'><Link href={'/chart'}>Move to chart editor</Link></Button>
           </div>
           <div className="w-[800px] h-2/3 items-center">

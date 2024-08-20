@@ -1,13 +1,14 @@
-export default function TermsOfService() {
-    const websiteName = 'animated-chart'
-    const email = 'tkappdevelop@gmail.com'
-    const domain = 'animated-chart.com'
+import terms_of_service_consts from "@/lib/terms_of_service_consts"
+
+export default function TermsOfConditions() {
+
+    const {companyName, websiteName, email, domain} = terms_of_service_consts
     return (
         <div className="w-2/3 h-full items-center justify-center">
-            <h2 style={{"textAlign": 'center'}}><b>TERMS OF SERVICE</b></h2>
+            <h2 className="text-center font-extrabold text-2xl"><b>TERMS OF SERVICE</b></h2>
             <p>Last updated: 2024-08-05</p>
             <p>1. <b>Introduction</b></p>
-            <p>Welcome to <b>{websiteName}</b> (“we”, “our”, “us”)!</p>
+            <p>Welcome to <b>{companyName}</b> (“we”, “our”, “us”)!</p>
             <p>These Terms of Service (“Terms”, “Terms of Service”) govern your use of our website located at <b>{domain}</b> (together or individually “Service”) operated by <b>{websiteName}</b>.</p>
             <p>Our Privacy Policy also governs your use of our Service and explains how we collect, safeguard and disclose information that results from your use of our web pages.</p>
             <p>Your agreement with us includes these Terms and our Privacy Policy (“Agreements”). You acknowledge that you have read and understood Agreements, and agree to be bound of them.</p>
@@ -89,41 +90,18 @@ export default function TermsOfService() {
             <p>These Terms shall be governed and construed in accordance with the laws of South Korea, which governing law applies to agreement without regard to its conflict of law provisions.</p>
             <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service and supersede and replace any prior agreements we might have had between us regarding Service.</p>
             
-            <p>22. <b>Privacy</b></p>
-            <p>Our commitment to privacy and data protection is reflected in this Privacy Statement which describes how we collect and process “personal information” that identifies you, like your name or email address. Any other information besides this is "non-personal information." If we store personal information with non-personal information, we'll consider that combination to be personal information.</p>
-            <p>Information Gathering</p>
-            <p>We learn information about you when: You directly provide it to us. For example, we collect: Name and contact information. We collect details such as name and email address. Payment information. If you make a purchase, we may collect credit card numbers, financial account information and other payment details. We collect it automatically through our products and services. For instance, we collect: Identifiers and device information. When you visit our websites, our web servers log your Internet Protocol (IP) address and information about your device, including device identifiers, device type, operating system, browser, and other software including type, version, language, settings, and configuration. Geolocation data. Depending on your device and app settings, we collect geolocation data when you use our Services. Usage data. We log your activity on our website, including the URL of the website from which you came to our site, pages you viewed on our website, how long you spent on a page, access times, and other details about your use of and actions on our website. We also collect information about which web-elements or objects you interact with on our Service, metadata about your activity on the Service, changes in your user state, and the duration of your use of our Service. Someone else tells us information about you. Third-party sources include, for example: Third-party partners. Third-party applications and services, including social networks you choose to connect with or interact with through our services. Service providers. Third parties that collect or provide data in connection with work they do on our behalf, for example companies that determine your device's location based on its IP address. When we try and understand more about you based on information you've given to us. We infer new information from other data we collect, including using automated means to generate information about your likely preferences or other characteristics (“inferences”). For example, we infer your general geographic location based on your IP address.</p>
-            <p>Information Use</p>
-            <p>We use each category of personal information about you:</p>
-            <p>To provide you with our Services</p>
-            <p>To improve and develop our Services</p>
-            <p>To communicate with you</p>
-            <p>To provide customer support</p>
-            <p>Information Sharing</p>
-            <p>We share information about you: When we've asked & received your consent to share it. As needed, including to third-party service providers, to process or provide Services or products to you, but only if those entities agree to provide at least the same level of privacy protection we're committed to under this Privacy Statement. To comply with laws or to respond to lawful requests and legal process, provided that we'll notify you unless we're legally prohibited from doing so. We'll only release personal information if we believe in good faith that it's legally required. Only if we reasonably believe it's necessary to prevent harm to the rights, property or safety of you or others. In the event of a corporate restructuring or change in our organizational structure or status to a successor or affiliate.</p>
-            <p>Please note that some of our Services include integrations, references, or links to services provided by third parties whose privacy practices differ from ours. If you provide personal information to any of those third parties, or allow us to share personal information with them, that data is governed by their privacy statements.</p>
-            <p>Finally, we may share non-personal information in accordance with applicable law.</p>
-            <p>Information Protection</p>
-            <p>We implement physical, business and technical security measures to safeguard your personal information. In the event of a security breach, we'll notify you so that you can take appropriate protective steps. We only keep your personal information for as long as is needed to do what we collected it for. After that, we destroy it unless required by law.</p>
-            <p>Other Information</p>
-            <p>We retain personal data for as long as necessary to provide the services and fulfill the transactions you have requested, comply with our legal obligations, resolve disputes, enforce our agreements, and other legitimate and lawful business purposes. Because these needs can vary for different data types in the context of different services, actual retention periods can vary significantly based on criteria such as user expectations or consent, the sensitivity of the data, the availability of automated controls that enable users to delete data, and our legal or contractual obligations. As part of our normal operations, your information may be stored in computers in other countries outside of your home country. By giving us information, you consent to this kind of information transfer. Irrespective of where your information resides, we'll comply with applicable law and abide by our commitments herein. We don't want your personal information if you're under 13. Do not provide it to us. If your child is under 13 and you believe your child has provided us with their personal information, please contact us to have such information removed.</p>
-            <p>European Economic Area, United Kingdom, Swiss and California users</p>
-            <p>The following rights are granted under the European General Data Protection Regulation (“GDPR”) and California Consumer Privacy Act (“CCPA”). {websiteName} AI applies these rights to all users of our products, regardless of your location: The right to know what personal information is collected. The right to know if personal information is being shared, and to whom. The right to access your personal information. The right to exercise your privacy rights without being discriminated against.</p>
-            <p>EEA, UK, and Swiss Users: Our lawful bases for collecting and processing personal information under the GDPR include: Performing our contract with you and providing our services. Legitimate interests: we receive technical and interaction data of users, which may include IP addresses, to improve the security and reliability of our services and prevent abuse, and to understand where people learn about {websiteName}. Consent: where we ask for your consent to process your information, you can always withdraw this consent.</p>
-            <p>Under the GDPR, EEA, UK, and Swiss users have additional rights: The right to request correction or erasure of personal information. The right to object to processing your personal information. The right to right to transfer or receive a copy of the personal information in a usable and portable format, when any automated processing of personal data is based on your consent or a contract with you. The rights to withdraw your consent to processing, when the processing is based on your consent. When we are processing data on behalf of another party that is the “data controller,” you should direct your request to that party. You also have the right to lodge a complaint with a supervisory authority, but we encourage you to first contact us with any questions or concerns.</p>
-            <p>California Users: Under the CCPA, California residents have additional rights: The right to request personal information about to be deleted, subject to several exceptions. The right to opt-out of the sale of personal information. Note that we do not “sell” personal information as defined by the CCPA and have not done so in the past 12 months. You may designate, in writing or through a power of attorney, an authorized agent to make requests on your behalf to exercise your rights under the CCPA. Before accepting such a request from an agent, we will require the agent to provide proof you have authorized it to act on your behalf, and we may need you to verify your identity directly with us. Further, to provide or delete specific pieces of personal information we will need to verify your identity to the degree of certainty required by law. We will verify your request by asking you to send it from the email address associated with your account or requiring you to provide information necessary to verify your account.</p>
-            <p>23. <b>Changes To Service</b></p>
+            <p>22. <b>Changes To Service</b></p>
             <p>We reserve the right to withdraw or amend our Service, and any service or material we provide via Service, in our sole discretion without notice. We will not be liable if for any reason all or any part of Service is unavailable at any time or for any period. From time to time, we may restrict access to some parts of Service, or the entire Service, to users, including registered users.</p>
-            <p>24. <b>Amendments To Terms</b></p>
+            <p>23. <b>Amendments To Terms</b></p>
             <p>We may amend Terms at any time by posting the amended terms on this site. It is your responsibility to review these Terms periodically.</p>
             <p>Your continued use of the Platform following the posting of revised Terms means that you accept and agree to the changes. You are expected to check this page frequently so you are aware of any changes, as they are binding on you.</p>
             <p>By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use Service.</p>
-            <p>25. <b>Waiver And Severability</b></p>
+            <p>24. <b>Waiver And Severability</b></p>
             <p>No waiver by Company of any term or condition set forth in Terms shall be deemed a further or continuing waiver of such term or condition or a waiver of any other term or condition, and any failure of Company to assert a right or provision under Terms shall not constitute a waiver of such right or provision.</p>
             <p>If any provision of Terms is held by a court or other tribunal of competent jurisdiction to be invalid, illegal or unenforceable for any reason, such provision shall be eliminated or limited to the minimum extent such that the remaining provisions of Terms will continue in full force and effect.</p>
-            <p>26. <b>Acknowledgement</b></p>
+            <p>25. <b>Acknowledgement</b></p>
             <p>BY USING SERVICE OR OTHER SERVICES PROVIDED BY US, YOU ACKNOWLEDGE THAT YOU HAVE READ THESE TERMS OF SERVICE AND AGREE TO BE BOUND BY THEM.</p>
-            <p>27. <b>Contact Us</b></p>
+            <p>26. <b>Contact Us</b></p>
             <p>Please send your feedback, comments, requests for technical support by email: <b>{email}</b>.</p>
         </div>
     )
