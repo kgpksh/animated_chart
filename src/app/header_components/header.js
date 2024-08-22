@@ -24,7 +24,14 @@ export default function Header() {
                 Paddle.Environment.set(process.env.NEXT_PUBLIC_PADDLE_ENVIORNMENT_MODE);
             }
             
-            Paddle.Initialize({ token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN });
+            Paddle.Initialize({ 
+                token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
+                checkout: {
+                    settings: {
+                        allowLogout: false
+                    }
+                }
+             });
           }
     }, [])
 
