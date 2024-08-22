@@ -40,7 +40,7 @@ export default function Header() {
             <h1 className="text-lg">
                 <Link href='/' className="flex font-bold items-center">
                     <Image src={'/favicon.png'} width={40} height={40} alt="Logo"/>
-                    Animated Chart
+                    <div className="ml-3">Animated Chart</div>
                 </Link>
             </h1>
             <div className="flex items-center gap-x-4">
