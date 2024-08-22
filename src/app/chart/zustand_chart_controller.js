@@ -25,7 +25,7 @@ const chartController = create((set, get) => ({
     isBasicRegistered = true
   },
   registerDataLabels() {
-    if(!isDatalabelsRegistered) {
+    if(isDatalabelsRegistered) {
       return
     }
     ChartJS.register(ChartDataLabels);
