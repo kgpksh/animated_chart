@@ -48,7 +48,7 @@ export default function VideoCreateButtons() {
       if (videoUrl) {
         const a = document.createElement('a')
         a.href = videoUrl
-        a.download = new Date() + '.mp4' // 다운로드 파일 이름 설정
+        a.download = new Date() + '.webm' // 다운로드 파일 이름 설정
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)

@@ -10,7 +10,7 @@ export default function Home() {
           <div className="w-[700px] h-1/2 p-3">
             <h2 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-5">Chart animation tool</h2>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Convert your excel data to custom short chart animation</h3>
-            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Download mp4 video files to your computer</h3>
+            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Download webm video files to your computer</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Running on your local PC</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- No chart data sending to server</h3>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">- Unlock tools and features in $20/mo</h3>
