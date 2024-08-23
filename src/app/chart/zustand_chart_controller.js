@@ -3,7 +3,7 @@
 const { create } = require("zustand");
 import { BigChartTypes } from "./chart-parts-provider";
 import { Chart as ChartJS, registerables } from "chart.js";
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+// import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
 let mediaRecorder = null
@@ -25,6 +25,7 @@ const chartController = create((set, get) => ({
     isBasicRegistered = true
   },
   registerDataLabels() {
+    return
     if(isDatalabelsRegistered) {
       return
     }

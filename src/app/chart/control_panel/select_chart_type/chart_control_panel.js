@@ -69,7 +69,7 @@ export default function ChartControlPanel() {
                 <PolarChartIcon width={chartTypeIconSize} height={chartTypeIconSize}></PolarChartIcon>
             </button>
         </div>
-        <div className="mt-2">Overlay labels</div>
+        {/* <div className="mt-2">Overlay labels</div>
         
         <div className="hover:cursor-pointer mt-2">
                 <Checkbox
@@ -104,7 +104,7 @@ export default function ChartControlPanel() {
                 >
                     Apply
                 </Button>
-            </div>
+            </div> */}
             
 
             <Accordion type="multiple" collapsible defaultValue={['axes']}>
