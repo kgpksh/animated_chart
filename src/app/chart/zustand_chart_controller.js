@@ -64,7 +64,7 @@ const chartController = create((set, get) => ({
     set({isRecording : true})
     set({videoUrl : null})
       const canvas = get().chartRef.current.ctx.canvas;
-      const options = { mimeType: 'video/webm; codecs=vp9'};
+      const options = { mimeType: 'video/webm; codecs=vp9', videoBitsPerSecond: 10 * 1024 * 1024};
       mediaRecorder = new MediaRecorder(canvas.captureStream(), options);
       const arrVideoData = []
 
