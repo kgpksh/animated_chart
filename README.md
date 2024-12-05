@@ -7,5 +7,7 @@
 Next.js, Javascript, Chartjs, Zustand, Shadcn, Firebase, AWS EC2 + Paddle(결제수단)
 
 ## 3. 구조
+Chartjs는 캔버스 위에 차트와 애니메이션을 나타냅니다. 캔버스는 MediaRecorder로 동영상으로 만들 수 있으므로 이를 이용하였습니다.
+
 결제 수단으로 Paddle 사용, Paddle에서 제공하는 웹훅을 Firebase Cloud Functions에 걸어 Firestore DB 저장. 조건을 변경해가며 애니메이션을 만들어보는 것은 누구나 할 수 있지만, 구독 결제자에 한해 다운로드 가능.
 애니메이션 영상 작업을 브라우저에서 하고, 서버는 결제 정보만 저장
